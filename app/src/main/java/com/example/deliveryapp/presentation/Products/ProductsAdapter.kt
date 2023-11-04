@@ -5,22 +5,29 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.example.deliveryapp.R
+import com.example.deliveryapp.data.model.Categories
 import com.example.deliveryapp.data.remote.model.ApiCategories
+import com.example.deliveryapp.data.remote.model.ApiProduct
+import com.example.deliveryapp.data.remote.model.ApiProductCategory
 import com.example.deliveryapp.databinding.ItemCategoriesBinding
+import com.example.deliveryapp.databinding.ItemProductBinding
 import javax.inject.Inject
+import kotlin.random.Random
 
-class ProductsAdapter @Inject constructor() : ListAdapter<ApiCategories, ProductsAdapter.DataViewHolder>(
+class ProductsAdapter @Inject constructor() : ListAdapter<ApiProductCategory, ProductsAdapter.DataViewHolder>(
     diffUtilCallback
 ) {
 
-    private var onClick: (ApiCategories) -> Unit = {}
-    fun setCallback(callback: (ApiCategories) -> Unit) {
+    private var onClick: (ApiProductCategory) -> Unit = {}
+    fun setCallback(callback: (ApiProductCategory) -> Unit) {
         this.onClick = callback
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
-            ItemCategoriesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DataViewHolder(binding)
     }
 
@@ -29,13 +36,17 @@ class ProductsAdapter @Inject constructor() : ListAdapter<ApiCategories, Product
     }
 
     inner class DataViewHolder(
-        private val binding: ItemCategoriesBinding,
+        private val binding: ItemProductBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ApiCategories) {
+        fun bind(item: ApiProductCategory) {
 
             with(binding) {
-                buttonCategory.text = item.strCategory
-
+                buttonPrice.text = "${Random.nextInt(300, 1000)} р."
+                imageViewProduct.load(item.strMealThumb){
+                    placeholder(R.drawable.ic_placeholder_135)
+                }
+                textViewNameProduct.text = item.strMeal
+                textViewInfoProduct.text =item.strMealThumb
                 root.setOnClickListener {
                     onClick.invoke(item)
                 }
@@ -46,13 +57,13 @@ class ProductsAdapter @Inject constructor() : ListAdapter<ApiCategories, Product
         }
     }
 }
-private val diffUtilCallback = object : DiffUtil.ItemCallback<ApiCategories>() {
+private val diffUtilCallback = object : DiffUtil.ItemCallback<ApiProductCategory>() {
 
-    override fun areContentsTheSame(oldItem: ApiCategories, newItem: ApiCategories): Boolean {
+    override fun areContentsTheSame(oldItem: ApiProductCategory, newItem: ApiProductCategory): Boolean {
         return oldItem == newItem
     }
 
-    override fun areItemsTheSame(oldItem: ApiCategories, newItem: ApiCategories): Boolean {
-        return oldItem.strCategory == newItem.strCategory
+    override fun areItemsTheSame(oldItem: ApiProductCategory, newItem: ApiProductCategory): Boolean {
+        return oldItem.idMeal == newItem.idMeal
     }
 }

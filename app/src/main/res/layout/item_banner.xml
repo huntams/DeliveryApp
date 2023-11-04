@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
-    android:layout_height="112dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    android:layout_height="112dp"
+    android:layout_marginStart="16dp">
 
     <androidx.appcompat.widget.AppCompatImageView
+
+        android:id="@+id/imageViewBanner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="center"
-        android:src="@drawable/draw_banner_300"/>
-</androidx.appcompat.widget.LinearLayoutCompat>
+        android:src="@drawable/draw_banner_300" />
+</com.google.android.material.card.MaterialCardView>
