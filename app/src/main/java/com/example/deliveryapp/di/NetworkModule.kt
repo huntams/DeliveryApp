@@ -1,8 +1,6 @@
 package com.example.deliveryapp.di
 
 import android.content.Context
-import com.chuckerteam.chucker.api.ChuckerCollector
-import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.deliveryapp.data.DeliveryApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -57,14 +55,7 @@ object NetworkModule {
     fun provideHttpClient(
         @ApplicationContext context: Context,
     ): OkHttpClient {
-        return OkHttpClient().newBuilder().addInterceptor(
-            ChuckerInterceptor.Builder(context)
-                .collector(ChuckerCollector(context))
-                .maxContentLength(250000L)
-                .redactHeaders(emptySet())
-                .alwaysReadResponseBody(false)
-                .build()
-        ).build()
+        return OkHttpClient().newBuilder().build()
     }
 
 }
