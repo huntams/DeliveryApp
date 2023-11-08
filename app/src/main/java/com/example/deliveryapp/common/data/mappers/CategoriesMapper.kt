@@ -1,10 +1,10 @@
-package com.example.deliveryapp.data.mappers
+package com.example.deliveryapp.common.data.mappers
 
-import com.example.deliveryapp.data.model.Categories
-import com.example.deliveryapp.data.remote.model.ApiCategories
-import com.example.deliveryapp.data.remote.model.ApiMeals
-import com.example.deliveryapp.data.remote.model.ApiProduct
-import com.example.deliveryapp.data.remote.model.ApiProductCategory
+import com.example.deliveryapp.common.data.model.Categories
+import com.example.deliveryapp.common.data.remote.model.ApiCategories
+import com.example.deliveryapp.common.data.remote.model.ApiMeals
+import com.example.deliveryapp.common.data.remote.model.ApiProduct
+import com.example.deliveryapp.common.data.remote.model.ApiProductCategory
 import javax.inject.Inject
 import javax.inject.Singleton
 

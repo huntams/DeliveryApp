@@ -1,4 +1,4 @@
-package com.example.deliveryapp.di
+package com.example.deliveryapp.common.di
 
 import android.content.ContentResolver
 import android.content.Context

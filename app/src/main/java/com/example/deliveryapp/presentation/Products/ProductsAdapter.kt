@@ -7,18 +7,15 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.deliveryapp.R
-import com.example.deliveryapp.data.model.Categories
-import com.example.deliveryapp.data.remote.model.ApiCategories
-import com.example.deliveryapp.data.remote.model.ApiProduct
-import com.example.deliveryapp.data.remote.model.ApiProductCategory
-import com.example.deliveryapp.databinding.ItemCategoriesBinding
+import com.example.deliveryapp.common.data.remote.model.ApiProductCategory
 import com.example.deliveryapp.databinding.ItemProductBinding
 import javax.inject.Inject
 import kotlin.random.Random
 
-class ProductsAdapter @Inject constructor() : ListAdapter<ApiProductCategory, ProductsAdapter.DataViewHolder>(
-    diffUtilCallback
-) {
+class ProductsAdapter @Inject constructor() :
+    ListAdapter<ApiProductCategory, ProductsAdapter.DataViewHolder>(
+        diffUtilCallback
+    ) {
 
     private var onClick: (ApiProductCategory) -> Unit = {}
     fun setCallback(callback: (ApiProductCategory) -> Unit) {
@@ -42,11 +39,11 @@ class ProductsAdapter @Inject constructor() : ListAdapter<ApiProductCategory, Pr
 
             with(binding) {
                 buttonPrice.text = "${Random.nextInt(300, 1000)} р."
-                imageViewProduct.load(item.strMealThumb){
+                imageViewProduct.load(item.strMealThumb) {
                     placeholder(R.drawable.ic_placeholder_135)
                 }
                 textViewNameProduct.text = item.strMeal
-                textViewInfoProduct.text =item.strMealThumb
+                textViewInfoProduct.text = item.strMealThumb
                 root.setOnClickListener {
                     onClick.invoke(item)
                 }
@@ -57,13 +54,20 @@ class ProductsAdapter @Inject constructor() : ListAdapter<ApiProductCategory, Pr
         }
     }
 }
+
 private val diffUtilCallback = object : DiffUtil.ItemCallback<ApiProductCategory>() {
 
-    override fun areContentsTheSame(oldItem: ApiProductCategory, newItem: ApiProductCategory): Boolean {
+    override fun areContentsTheSame(
+        oldItem: ApiProductCategory,
+        newItem: ApiProductCategory
+    ): Boolean {
         return oldItem == newItem
     }
 
-    override fun areItemsTheSame(oldItem: ApiProductCategory, newItem: ApiProductCategory): Boolean {
+    override fun areItemsTheSame(
+        oldItem: ApiProductCategory,
+        newItem: ApiProductCategory
+    ): Boolean {
         return oldItem.idMeal == newItem.idMeal
     }
 }

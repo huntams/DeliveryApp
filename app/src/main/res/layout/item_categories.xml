@@ -11,6 +11,7 @@
         android:layout_marginStart="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
         tools:text="@tools:sample/lorem"
         app:cornerRadius="6dp"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

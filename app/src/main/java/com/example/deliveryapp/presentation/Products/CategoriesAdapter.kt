@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.deliveryapp.data.remote.model.ApiCategories
+import com.example.deliveryapp.common.data.remote.model.ApiCategories
 import com.example.deliveryapp.databinding.ItemCategoriesBinding
 import javax.inject.Inject
 
@@ -36,11 +36,9 @@ class CategoriesAdapter @Inject constructor() : ListAdapter<ApiCategories, Categ
             with(binding) {
                 buttonCategory.text = item.strCategory
 
-                root.setOnClickListener {
+                buttonCategory.setOnClickListener {
                     onClick.invoke(item)
                 }
-
-
             }
 
         }

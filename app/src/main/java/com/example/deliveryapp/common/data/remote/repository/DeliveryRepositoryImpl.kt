@@ -1,16 +1,16 @@
-package com.example.deliveryapp.data.remote.repository
+package com.example.deliveryapp.common.data.remote.repository
 
-import com.example.deliveryapp.data.DeliveryApiService
-import com.example.deliveryapp.data.mappers.CategoriesMapper
-import com.example.deliveryapp.data.model.Categories
-import com.example.deliveryapp.data.remote.model.ApiCategories
-import com.example.deliveryapp.data.remote.model.ApiProduct
-import com.example.deliveryapp.data.remote.model.ApiProductCategory
+import com.example.deliveryapp.common.data.DeliveryApiService
+import com.example.deliveryapp.common.data.mappers.CategoriesMapper
+import com.example.deliveryapp.common.data.model.Categories
+import com.example.deliveryapp.common.data.remote.model.ApiCategories
+import com.example.deliveryapp.common.data.remote.model.ApiProduct
+import com.example.deliveryapp.common.data.remote.model.ApiProductCategory
 import javax.inject.Inject
 
 class DeliveryRepositoryImpl @Inject constructor(
-private val deliveryApiService: DeliveryApiService,
-private val categoriesMapper: CategoriesMapper,
+    private val deliveryApiService: DeliveryApiService,
+    private val categoriesMapper: CategoriesMapper,
 ): DeliveryRepository {
     override suspend fun getProductsByCategory(category: String): Categories<ApiProductCategory> {
         return categoriesMapper.apiProductsCategoriesToModel(deliveryApiService.getProductsByCategory(category))

@@ -2,14 +2,13 @@ package com.example.deliveryapp.presentation.Products
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.deliveryapp.base.BaseViewModel
-import com.example.deliveryapp.data.model.Categories
-import com.example.deliveryapp.data.remote.ResultLoader
-import com.example.deliveryapp.data.remote.model.ApiCategories
-import com.example.deliveryapp.data.remote.model.ApiProduct
-import com.example.deliveryapp.data.remote.model.ApiProductCategory
+import com.example.deliveryapp.common.data.model.Categories
+import com.example.deliveryapp.common.data.remote.ResultLoader
+import com.example.deliveryapp.common.data.remote.model.ApiCategories
+import com.example.deliveryapp.common.data.remote.model.ApiProduct
+import com.example.deliveryapp.common.data.remote.model.ApiProductCategory
 import com.example.deliveryapp.domain.GetCategoriesUseCase
 import com.example.deliveryapp.domain.GetProductByIdUseCase
 import com.example.deliveryapp.domain.GetProductsByCategoryUseCase
@@ -27,8 +26,9 @@ class ProductsViewModel @Inject constructor(
     val categoriesLiveData: LiveData<ResultLoader<Categories<ApiCategories>>> = _categoriesLiveData
 
 
-    private val _mealsLiveData = MutableLiveData<ResultLoader<MutableList<ApiProductCategory>>>()
-    val mealsLiveData: LiveData<ResultLoader<MutableList<ApiProductCategory>>> =
+    private val _mealsLiveData =
+        MutableLiveData<ResultLoader<MutableMap<String, List<ApiProductCategory>>>>()
+    val mealsLiveData: LiveData<ResultLoader<MutableMap<String, List<ApiProductCategory>>>> =
         _mealsLiveData
 
     private val _productLiveData = MutableLiveData<Categories<ApiProduct>>()
@@ -37,16 +37,19 @@ class ProductsViewModel @Inject constructor(
 
     fun getProductsByCategory(categories: Categories<ApiCategories>) {
 
+        val meals = mutableMapOf<String, List<ApiProductCategory>>()
         val data = mutableListOf<ApiProductCategory>()
         viewModelScope.launch {
             try {
+                _mealsLiveData.postValue(ResultLoader.Loading())
                 for (meal in categories.meals) {
                     getProductsByCategoryUseCase(meal.strCategory).also {
 
                         data.addAll(it.meals)
+                        meals[meal.strCategory] = it.meals
                     }
                 }
-                _mealsLiveData.postValue(ResultLoader.Success(data))
+                _mealsLiveData.postValue(ResultLoader.Success(meals))
             } catch (t: Throwable) {
                 _mealsLiveData.postValue(ResultLoader.Failure(t))
             }
@@ -72,6 +75,7 @@ class ProductsViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
+                _categoriesLiveData.postValue(ResultLoader.Loading())
                 getCategoriesUseCase().also {
                     _categoriesLiveData.postValue(ResultLoader.Success(it))
                 }

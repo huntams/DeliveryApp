@@ -1,4 +1,4 @@
-package com.example.deliveryapp.data.remote
+package com.example.deliveryapp.common.data.remote
 
 sealed class ResultLoader<T>(
 ) {

@@ -1,7 +1,7 @@
-package com.example.deliveryapp.di
+package com.example.deliveryapp.common.di
 
 import android.content.Context
-import com.example.deliveryapp.data.DeliveryApiService
+import com.example.deliveryapp.common.data.DeliveryApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
