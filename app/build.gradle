@@ -11,11 +11,11 @@ plugins {
 android {
 
     namespace 'com.example.deliveryapp'
-    compileSdk 34
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
         applicationId "com.example.deliveryapp"
-        minSdk 24
+        minSdk rootProject.ext.minSdkVersion
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -50,7 +50,10 @@ dependencies {
     implementation project(":features:products")
     implementation project(":features:profiles")
     implementation project(":features:shop")
-    implementation project(":common")
+    implementation project(":core:common")
+    implementation project(":core:data")
+    implementation project(":core:model")
+    implementation project(":core:network")
 
     //DI
     implementation "com.google.dagger:hilt-android:$hilt_version"

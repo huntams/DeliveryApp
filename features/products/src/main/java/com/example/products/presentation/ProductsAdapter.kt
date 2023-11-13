@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.common.utils.data.remote.model.ApiProductCategory
+import com.example.network.model.ApiProductCategory
 import com.example.products.R
 import com.example.products.databinding.ItemProductBinding
 import javax.inject.Inject

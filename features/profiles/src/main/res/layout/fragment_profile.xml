@@ -9,7 +9,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        style="@style/TextAppearance.Material3.TitleLarge"
         android:text="ewqaeetasdgkjasjkjl;kaspoigwjqjigwejoipagia"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

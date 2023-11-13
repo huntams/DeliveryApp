@@ -3,18 +3,18 @@ package com.example.products.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.common.utils.data.model.Categories
-import com.example.common.utils.data.remote.ResultLoader
-import com.example.common.utils.data.remote.model.ApiCategories
-import com.example.common.utils.data.remote.model.ApiProduct
-import com.example.common.utils.data.remote.model.ApiProductCategory
+import com.example.common.BaseViewModel
+import com.example.common.ResultLoader
+import com.example.model.Categories
+import com.example.network.model.ApiCategories
+import com.example.network.model.ApiProduct
+import com.example.network.model.ApiProductCategory
 import com.example.products.domain.GetCategoriesUseCase
 import com.example.products.domain.GetProductByIdUseCase
 import com.example.products.domain.GetProductsByCategoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import com.example.common.utils.base.BaseViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @HiltViewModel

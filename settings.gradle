@@ -14,7 +14,10 @@ dependencyResolutionManagement {
 }
 rootProject.name = "DeliveryApp"
 include ':app'
-include ':common'
 include ':features:products'
 include ':features:profiles'
 include ':features:shop'
+include ':core:data'
+include ':core:network'
+include ':core:common'
+include ':core:model'

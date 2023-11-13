@@ -1,14 +1,13 @@
 package com.example.products.domain
 
-import com.example.common.utils.data.model.Categories
-import com.example.common.utils.data.remote.model.ApiProduct
-import com.example.common.utils.data.remote.repository.DeliveryRepository
+import com.example.network.model.ApiProduct
+import com.example.network.repository.DeliveryRepository
 import javax.inject.Inject
 
 class GetProductByIdUseCase @Inject constructor(
     private val deliveryRepository: DeliveryRepository
 ) {
-    suspend operator fun invoke(id: Int): Categories<ApiProduct> {
+    suspend operator fun invoke(id: Int): com.example.model.Categories<ApiProduct> {
         return deliveryRepository.getProductById(id)
     }
 }

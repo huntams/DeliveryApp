@@ -5,9 +5,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.example.common.utils.data.model.Categories
-import com.example.common.utils.data.remote.ResultLoader
-import com.example.common.utils.data.remote.model.ApiCategories
+import com.example.common.ResultLoader
+import com.example.model.Categories
+import com.example.network.model.ApiCategories
 import com.example.products.R
 import com.example.products.databinding.FragmentProductsBinding
 import com.google.android.material.snackbar.Snackbar

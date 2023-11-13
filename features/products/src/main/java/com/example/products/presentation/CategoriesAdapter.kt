@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.common.utils.data.remote.model.ApiCategories
+import com.example.network.model.ApiCategories
 import com.example.products.databinding.ItemCategoriesBinding
 import javax.inject.Inject
 

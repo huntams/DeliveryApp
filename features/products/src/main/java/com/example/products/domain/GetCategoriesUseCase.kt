@@ -1,8 +1,9 @@
 package com.example.products.domain
 
-import com.example.common.utils.data.model.Categories
-import com.example.common.utils.data.remote.model.ApiCategories
-import com.example.common.utils.data.remote.repository.DeliveryRepository
+
+import com.example.model.Categories
+import com.example.network.model.ApiCategories
+import com.example.network.repository.DeliveryRepository
 import javax.inject.Inject
 
 class GetCategoriesUseCase @Inject constructor(

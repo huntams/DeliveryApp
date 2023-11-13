@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="total_price"> product for </string>
+    <string name="delivery_price">Minimal price for delivery —</string>
+    <string name="sauces">Sauces</string>
+    <string name="change_button">Change</string>
+</resources>

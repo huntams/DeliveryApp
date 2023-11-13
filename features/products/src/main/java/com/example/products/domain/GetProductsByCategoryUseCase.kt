@@ -1,8 +1,10 @@
 package com.example.products.domain
-import com.example.common.utils.data.model.Categories
-import com.example.common.utils.data.remote.model.ApiProductCategory
-import com.example.common.utils.data.remote.repository.DeliveryRepository
+
+import com.example.model.Categories
+import com.example.network.model.ApiProductCategory
+import com.example.network.repository.DeliveryRepository
 import javax.inject.Inject
+
 class GetProductsByCategoryUseCase @Inject constructor(
     private val deliveryRepository: DeliveryRepository
 ) {

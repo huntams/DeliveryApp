@@ -35,7 +35,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(":common")
+    implementation project(":core:data")
+    implementation project(":core:common")
+    implementation project(":core:model")
+    implementation project(":core:network")
     //DI
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"

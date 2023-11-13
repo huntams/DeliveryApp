@@ -43,9 +43,13 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(":common")
+    //api project(":core:data")
     //DI
     implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation project(":core:data")
+    implementation project(":core:common")
+    implementation project(":core:model")
+    implementation project(":core:network")
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
