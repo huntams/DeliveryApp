@@ -31,12 +31,18 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        var idOrder: Long = 0
+        viewModel.addOrder()
+        viewModel.idLiveData.observe(viewLifecycleOwner) {
+            idOrder = it
+        }
+        var category = ""
         val banners = BannersAdapter(List(Random.nextInt(1, 10)) { UUID.randomUUID().toString() })
         var resultCategories: Categories<ApiCategories> = Categories(listOf())
         binding.recyclerViewBanners.apply {
             adapter = banners
         }
-
 
         viewModel.getCategories()
         viewModel.categoriesLiveData.observe(viewLifecycleOwner) { result ->
@@ -49,8 +55,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                     }
                     binding.recyclerViewCategories.adapter = categoriesAdapter
                     resultCategories = result.value
-                    viewModel.getProductsByCategory(result.value)
-
+                    viewModel.getProductsByCategory(resultCategories)
                 }
 
                 is ResultLoader.Loading -> {
@@ -71,9 +76,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                     mySnackbar.show()
                 }
 
-                else -> {
-
-                }
+                else -> {}
             }
         }
 
@@ -82,7 +85,8 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                 is ResultLoader.Success -> {
                     binding.progressBar.visibility = View.GONE
                     binding.recyclerViewProducts.visibility = View.VISIBLE
-                    productsAdapter.submitList(result.value[resultCategories.meals[0].strCategory])
+                    category = resultCategories.meals[0].strCategory
+                    productsAdapter.submitList(result.value[category])
                     binding.recyclerViewProducts.apply {
                         adapter = productsAdapter
                     }
@@ -100,7 +104,6 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                     mySnackbar.show()
                 }
 
-
                 is ResultLoader.Loading -> {
                     with(binding) {
                         binding.recyclerViewProducts.visibility = View.GONE
@@ -112,16 +115,23 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
             }
         }
 
-        with(binding) {
-            categoriesAdapter.setCallback {
+        productsAdapter.setButtonCallback {
 
-                when (val meals = viewModel.mealsLiveData.value) {
-                    is ResultLoader.Success -> {
-                        productsAdapter.submitList(meals.value[it.strCategory])
-                    }
 
-                    else -> {}
+            viewModel.addProductQuantity(
+                quantity = it.countItem, orderId = idOrder, productId = it.idMeal
+            )
+
+        }
+
+        categoriesAdapter.setCallback {
+            when (val meals = viewModel.mealsLiveData.value) {
+                is ResultLoader.Success -> {
+                    category = it.strCategory
+                    productsAdapter.submitList(meals.value[category])
                 }
+
+                else -> {}
             }
         }
     }

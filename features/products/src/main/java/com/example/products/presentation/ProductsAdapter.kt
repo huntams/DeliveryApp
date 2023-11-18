@@ -2,15 +2,16 @@ package com.example.products.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.drawToBitmap
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.common.convertToByteArray
 import com.example.network.model.ApiProductCategory
 import com.example.products.R
 import com.example.products.databinding.ItemProductBinding
 import javax.inject.Inject
-import kotlin.random.Random
 
 class ProductsAdapter @Inject constructor() :
     ListAdapter<ApiProductCategory, ProductsAdapter.DataViewHolder>(
@@ -20,6 +21,15 @@ class ProductsAdapter @Inject constructor() :
     private var onClick: (ApiProductCategory) -> Unit = {}
     fun setCallback(callback: (ApiProductCategory) -> Unit) {
         this.onClick = callback
+    }
+
+    private fun getImage(binding: ItemProductBinding): ByteArray {
+        return binding.imageViewProduct.drawToBitmap().convertToByteArray()
+    }
+
+    private var buttonClick: (ApiProductCategory) -> Unit = {}
+    fun setButtonCallback(callback: (ApiProductCategory) -> Unit) {
+        this.buttonClick = callback
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
@@ -38,8 +48,9 @@ class ProductsAdapter @Inject constructor() :
         fun bind(item: ApiProductCategory) {
 
             with(binding) {
-                buttonPrice.text = "${Random.nextInt(300, 1000)} р."
+                buttonPrice.text = "${item.price} р."
                 imageViewProduct.load(item.strMealThumb) {
+                    crossfade(true)
                     placeholder(R.drawable.ic_placeholder_135)
                 }
                 textViewNameProduct.text = item.strMeal
@@ -47,7 +58,10 @@ class ProductsAdapter @Inject constructor() :
                 root.setOnClickListener {
                     onClick.invoke(item)
                 }
-
+                buttonPrice.setOnClickListener {
+                    item.countItem = item.countItem + 1
+                    buttonClick(item)
+                }
 
             }
 

@@ -46,6 +46,7 @@ dependencies {
     //api project(":core:data")
     //DI
     implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation project(":core:database")
     implementation project(":core:data")
     implementation project(":core:common")
     implementation project(":core:model")
