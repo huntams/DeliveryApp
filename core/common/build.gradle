@@ -1,14 +1,16 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
     namespace 'com.example.common'
-    compileSdk 33
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        minSdk 24
+        minSdk rootProject.ext.minSdkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -27,10 +29,15 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    kapt {
+        correctErrorTypes true
+    }
 }
 
 dependencies {
-
+    //DI
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     // LiveData

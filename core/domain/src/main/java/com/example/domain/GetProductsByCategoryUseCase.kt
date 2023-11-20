@@ -1,4 +1,4 @@
-package com.example.products.domain
+package com.example.domain
 
 import com.example.model.Categories
 import com.example.network.model.ApiProductCategory

@@ -1,9 +1,10 @@
 package com.example.database.repository
 
-import com.example.database.model.OrderWithProductQuantity
 import com.example.database.model.ProductEntity
-import com.example.database.model.ProductQuantity
+import com.example.database.model.ProductQuantityEntity
+import com.example.model.OrderWithProductQuantity
 import com.example.model.Product
+import com.example.model.ProductQuantity
 import kotlinx.coroutines.flow.Flow
 
 interface DeliveryDBRepository {
@@ -12,9 +13,14 @@ interface DeliveryDBRepository {
 
     suspend fun addOrder(totalPrice: Int): Long
 
-    suspend fun addProductQuantity(productQuantity: ProductQuantity)
+    suspend fun addProductQuantity(productQuantityEntity: ProductQuantityEntity): Long
     suspend fun addProducts(products: List<ProductEntity>)
-    fun getOrderWithProductQuantity(): Flow<List<OrderWithProductQuantity>>
+
+    suspend fun addProductCrossRef(productId: Long, productQuantity: Long)
+    suspend fun deleteProductQuantity(productQuantity: ProductQuantity)
+
+    fun getOrderWithProductQuantityById(data: Long): Flow<OrderWithProductQuantity>
+    fun getOrdersWithProductQuantity(): Flow<List<OrderWithProductQuantity>>
 
     fun getProducts(): Flow<List<Product>>
 }

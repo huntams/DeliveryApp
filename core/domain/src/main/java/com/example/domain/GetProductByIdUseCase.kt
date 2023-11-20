@@ -1,4 +1,4 @@
-package com.example.products.domain
+package com.example.domain
 
 import com.example.network.model.ApiProduct
 import com.example.network.repository.DeliveryRepository

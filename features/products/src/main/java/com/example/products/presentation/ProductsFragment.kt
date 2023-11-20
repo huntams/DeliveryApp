@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.common.PrefsStorage
 import com.example.common.ResultLoader
 import com.example.model.Categories
 import com.example.network.model.ApiCategories
@@ -29,15 +30,19 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
     @Inject
     lateinit var productsAdapter: ProductsAdapter
 
+    @Inject
+    lateinit var prefs: PrefsStorage
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var idOrder: Long = 0
-        viewModel.addOrder()
+
+        if (prefs.order == 0.toLong())
+            viewModel.addOrder()
         viewModel.idLiveData.observe(viewLifecycleOwner) {
-            idOrder = it
+            prefs.order = it
         }
-        var category = ""
+        var category : String
         val banners = BannersAdapter(List(Random.nextInt(1, 10)) { UUID.randomUUID().toString() })
         var resultCategories: Categories<ApiCategories> = Categories(listOf())
         binding.recyclerViewBanners.apply {
@@ -115,13 +120,17 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
             }
         }
 
-        productsAdapter.setButtonCallback {
-
+        productsAdapter.setButtonCallback { apiproduct ->
 
             viewModel.addProductQuantity(
-                quantity = it.countItem, orderId = idOrder, productId = it.idMeal
+                quantity = apiproduct.countItem,
+                orderId = prefs.order,
+                productId = apiproduct.idMeal
             )
-
+            viewModel.addProductCrossRef(
+                productId = apiproduct.idMeal,
+                productQuantityId = apiproduct.idMeal,
+            )
         }
 
         categoriesAdapter.setCallback {
@@ -135,4 +144,5 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
             }
         }
     }
+
 }

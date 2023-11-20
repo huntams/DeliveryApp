@@ -1,4 +1,4 @@
-package com.example.products.domain.db
+package com.example.domain.db
 
 import com.example.database.repository.DeliveryDBRepository
 import javax.inject.Inject

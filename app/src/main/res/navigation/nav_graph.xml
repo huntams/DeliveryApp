@@ -9,7 +9,12 @@
         android:id="@+id/Products"
         android:name="com.example.products.presentation.ProductsFragment"
         android:label=""
-        tools:layout="@layout/fragment_products" />
+        tools:layout="@layout/fragment_products" >
+        <action
+            android:id="@+id/action_Products_to_Shop"
+
+            app:destination="@id/Shop" />
+    </fragment>
     <fragment
         android:id="@+id/Profile"
         android:name="com.example.profiles.ProfileFragment"

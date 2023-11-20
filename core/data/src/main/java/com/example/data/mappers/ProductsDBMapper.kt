@@ -11,7 +11,7 @@ class ProductsDBMapper @Inject constructor() {
     fun fromEntityToUIModel(entity: ProductEntity): Product {
 
         return Product(
-            id = entity.id,
+            id = entity.productId,
             nameProduct = entity.nameProduct,
             productCategory = entity.productCategory,
             productPrice = entity.productPrice,
@@ -24,7 +24,7 @@ class ProductsDBMapper @Inject constructor() {
     fun fromUIModelToEntity(product: Product): ProductEntity {
 
         return ProductEntity(
-            id = product.id,
+            productId = product.id,
             nameProduct = product.nameProduct,
             productCategory = product.productCategory,
             productPrice = product.productPrice,
