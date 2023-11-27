@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/shop_nav_graph"
+    app:startDestination="@id/shopFragment">
+    <fragment
+        android:id="@+id/shopFragment"
+        android:name="com.example.shop.ShopFragment"
+        tools:layout="@layout/fragment_shop"
+        android:label="ShopFragment" >
+        <action
+            android:id="@+id/action_shopFragment_to_bottomSheetPromoFragment"
+            app:destination="@id/bottomSheetPromoFragment" />
+        <action
+            android:id="@+id/action_shopFragment_to_orderSheetFragment"
+            app:destination="@id/orderSheetFragment" />
+
+    </fragment>
+    <dialog
+        android:id="@+id/bottomSheetPromoFragment"
+        android:name="com.example.shop.BottomSheetPromoFragment"
+        tools:layout="@layout/fragment_promocode"
+        android:label="BottomSheetPromoFragment" >
+        <argument
+            android:name="randomCoins"
+            app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/orderSheetFragment"
+        tools:layout="@layout/fragment_order"
+        android:name="com.example.shop.OrderSheetFragment"
+        android:label="OrderSheetFragment" >
+        <argument
+            android:name="orderId"
+            app:argType="long" />
+    </dialog>
+
+
+</navigation>

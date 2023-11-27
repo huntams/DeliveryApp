@@ -4,4 +4,18 @@
     <string name="delivery_price">Minimal price for delivery —</string>
     <string name="sauces">Sauces</string>
     <string name="change_button">Change</string>
+    <string name="add_to_order">Add to order?</string>
+    <string name="input_promo">Input promo-code</string>
+    <string name="delivery_coins">You received deliverycoins</string>
+    <string name="button_order">Order on</string>
+    <string name="input_promo_code">Input promo-code</string>
+    <string name="accept">Accept</string>
+    <string name="delivery_to_address">Delivery to address</string>
+    <string name="time_to_delivery">Time to delivery</string>
+    <string name="payment_method">Payment method</string>
+    <string name="order_cost">Order cost</string>
+    <string name="Continue">Continue</string>
+    <string name="delivery">Delivery</string>
+    <string name="free">Free</string>
+    <string name="order_price">Order price</string>
 </resources>

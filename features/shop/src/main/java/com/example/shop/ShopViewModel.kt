@@ -42,6 +42,11 @@ class ShopViewModel @Inject constructor(
         getOrderById(productQuantity.orderId)
     }
 
+    fun totalPrice(order: OrderWithProductQuantity) : Int{
+        return order.productQuantity.sumOf {
+            it.product.productPrice * it.productQuantity.quantity
+        } + price
+    }
     fun addProductQuantity(quantity: Int, orderId: Long, productId: Long) {
         viewModelScope.launch {
             addProductQuantityUseCase(

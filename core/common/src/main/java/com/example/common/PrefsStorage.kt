@@ -13,6 +13,7 @@ class PrefsStorage @Inject constructor(
     companion object {
         private const val PREFS_NAME = "Prefs"
         private const val ORDER_KEY = "ORDER_KEY"
+        private const val COINS_KEY = "COINS_KEY"
     }
 
     private val prefs by lazy {
@@ -23,6 +24,13 @@ class PrefsStorage @Inject constructor(
         set(value) {
             prefs.edit {
                 putLong(ORDER_KEY, value)
+            }
+        }
+    var coins: Int
+        get() = prefs.getInt(COINS_KEY, 0)
+        set(value) {
+            prefs.edit {
+                putInt(COINS_KEY, value)
             }
         }
 

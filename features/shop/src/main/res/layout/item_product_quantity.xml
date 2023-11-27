@@ -14,6 +14,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageViewProduct"
+            android:layout_margin="8dp"
             android:layout_width="64dp"
             android:layout_height="64dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -24,6 +25,7 @@
             android:id="@+id/textViewNameProduct"
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="0dp"
+            android:layout_margin="8dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageViewProduct"
@@ -35,7 +37,7 @@
             style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_margin="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageViewProduct"
             app:layout_constraintTop_toBottomOf="@+id/textViewNameProduct"

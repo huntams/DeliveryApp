@@ -29,7 +29,6 @@
                 tools:itemCount="4"
                 tools:listitem="@layout/item_banner" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -46,9 +45,8 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="4"
                 tools:listitem="@layout/item_categories" />
-
-
         </androidx.appcompat.widget.Toolbar>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView

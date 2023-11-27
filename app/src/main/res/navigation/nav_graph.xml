@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
+
     app:startDestination="@id/Products">
 
     <fragment
@@ -10,19 +11,18 @@
         android:name="com.example.products.presentation.ProductsFragment"
         android:label=""
         tools:layout="@layout/fragment_products" >
-        <action
-            android:id="@+id/action_Products_to_Shop"
-
-            app:destination="@id/Shop" />
     </fragment>
     <fragment
         android:id="@+id/Profile"
         android:name="com.example.profiles.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile"/>
+
+    <include app:graph="@navigation/shop_nav_graph" />
     <fragment
-        android:id="@+id/Shop"
-        android:name="com.example.shop.ShopFragment"
-        android:label="@string/shop"
-        tools:layout="@layout/fragment_shop"/>
+        android:id="@+id/qrCodeFragment"
+        android:name="com.example.qrcode.QrCodeFragment"
+        android:label="QrCodeFragment"
+        tools:layout="@layout/fragment_camera">
+    </fragment>
 </navigation>
