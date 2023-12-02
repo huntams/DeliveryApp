@@ -33,6 +33,9 @@ class DeliveryDBRepositoryImpl @Inject constructor(
     override suspend fun addOrder(totalPrice: Int): Long {
         return deliveryDAO.addOrder(OrderEntity(totalPrice = totalPrice))
     }
+    override suspend fun addOrderById(orderEntity: OrderEntity): Long {
+        return deliveryDAO.addOrderById(orderEntity)
+    }
 
     override suspend fun addProductQuantity(productQuantityEntity: ProductQuantityEntity): Long {
         return deliveryDAO.addProductQuantity(productQuantityEntity)

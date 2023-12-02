@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_shopFragment_to_orderSheetFragment"
             app:destination="@id/orderSheetFragment" />
+        <action
+            android:id="@+id/action_shopFragment_to_qrcode_nav_graph"
+            app:destination="@id/qrcode_nav_graph" />
 
     </fragment>
     <dialog
@@ -34,7 +37,16 @@
         <argument
             android:name="orderId"
             app:argType="long" />
+        <argument
+            android:name="deliveryCoins"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_orderSheetFragment_to_shopFragment"
+            app:destination="@id/shopFragment"
+            app:popUpTo="@id/shopFragment"
+            app:popUpToInclusive="true" />
     </dialog>
+    <include app:graph="@navigation/qrcode_nav_graph" />
 
 
 </navigation>

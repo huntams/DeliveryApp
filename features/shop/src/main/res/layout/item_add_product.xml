@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
+    android:layout_marginHorizontal="8dp"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp">
+        android:padding="8dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageViewProduct"
@@ -24,6 +25,7 @@
         <TextView
             android:id="@+id/textViewProduct"
             android:layout_width="0dp"
+            android:layout_margin="8dp"
             android:layout_height="wrap_content"
             android:maxLength="30"
             android:maxLines="2"
@@ -35,6 +37,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonPrice"
+            android:layout_margin="8dp"
             style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -1,5 +1,6 @@
 package com.example.database.repository
 
+import com.example.database.model.OrderEntity
 import com.example.database.model.ProductEntity
 import com.example.database.model.ProductQuantityEntity
 import com.example.model.OrderWithProductQuantity
@@ -13,6 +14,7 @@ interface DeliveryDBRepository {
 
     suspend fun addOrder(totalPrice: Int): Long
 
+    suspend fun addOrderById(orderEntity: OrderEntity): Long
     suspend fun addProductQuantity(productQuantityEntity: ProductQuantityEntity): Long
     suspend fun addProducts(products: List<ProductEntity>)
 

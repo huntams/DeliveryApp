@@ -20,7 +20,7 @@ class PrefsStorage @Inject constructor(
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
     var order: Long
-        get() = prefs.getLong(ORDER_KEY, 0)
+        get() = prefs.getLong(ORDER_KEY, 1)
         set(value) {
             prefs.edit {
                 putLong(ORDER_KEY, value)

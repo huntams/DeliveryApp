@@ -8,4 +8,6 @@ import androidx.room.PrimaryKey
 data class OrderEntity(
     @ColumnInfo(name = "orderId")
     @PrimaryKey(autoGenerate = true) val orderId: Long = 0,
-    val totalPrice: Int ?= 0,)
+    val totalPrice: Int ?= 0,
+    val deliveryCoins: Int?=0
+)

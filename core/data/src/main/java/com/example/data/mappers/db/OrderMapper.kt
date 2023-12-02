@@ -18,6 +18,7 @@ class OrderMapper @Inject constructor(
         return Order(
             orderId = entity.orderId,
             totalPrice = entity.totalPrice,
+            deliveryCoins = entity.deliveryCoins,
         )
     }
 

@@ -16,8 +16,10 @@ import com.example.domain.db.AddProductDBUseCase
 import com.example.domain.db.AddProductQuantityUseCase
 import com.example.domain.db.AddProductsDBUseCase
 import com.example.domain.db.GetOrderWithProductByIdUseCase
+import com.example.domain.db.GetProductsUseCase
 import com.example.model.Categories
 import com.example.model.OrderWithProductQuantity
+import com.example.model.Product
 import com.example.network.model.ApiCategories
 import com.example.network.model.ApiProductCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,14 +29,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductsViewModel @Inject constructor(
-    private val addProductDBUseCase: AddProductDBUseCase,
     private val addProductQuantityUseCase: AddProductQuantityUseCase,
-    private val addOrderDBUseCase: AddOrderDBUseCase,
     private val addProductsDBUseCase: AddProductsDBUseCase,
     private val addProductCrossRefUseCase: AddProductCrossRefUseCase,
     private val getCategoriesUseCase: GetCategoriesUseCase,
-    private val getProductByIdUseCase: GetProductByIdUseCase,
-    private val getOrderWithProductByIdUseCase: GetOrderWithProductByIdUseCase,
     private val getProductsByCategoryUseCase: GetProductsByCategoryUseCase,
 ) : BaseViewModel() {
     private val _categoriesLiveData = MutableLiveData<ResultLoader<Categories<ApiCategories>>>()
@@ -49,21 +47,19 @@ class ProductsViewModel @Inject constructor(
     private val _orderLiveData = MutableLiveData<OrderWithProductQuantity>()
     val orderLiveData: LiveData<OrderWithProductQuantity> = _orderLiveData
 
-    private val _idLiveData = MutableLiveData<Long>()
-    val idLiveData: LiveData<Long> = _idLiveData
-
     private val _quantityIdLiveData = MutableLiveData<Long>()
     val quantityIdLiveData: LiveData<Long> = _quantityIdLiveData
 
+    init {
+        getCategories()
+    }
 
     fun addProductQuantity(quantity: Int, orderId: Long, productId: Long) {
         viewModelScope.launch {
             _quantityIdLiveData.postValue(
                 addProductQuantityUseCase(
                     ProductQuantityEntity(
-                        productQuantityId = productId,
-                        quantity = quantity,
-                        orderEntityId = orderId
+                        productQuantityId = productId, quantity = quantity, orderEntityId = orderId
                     )
                 ) ?: 0
             )
@@ -76,22 +72,6 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
-    fun addOrder() {
-        viewModelScope.launch {
-            _idLiveData.postValue(addOrderDBUseCase(3) ?: 0)
-        }
-    }
-
-    fun getOrderById(data: Long) {
-        viewModelScope.launch {
-            getOrderWithProductByIdUseCase(data).collect {
-                _orderLiveData.value = it.copy(
-                    order = it.order,
-                    productQuantity = it.productQuantity,
-                )
-            }
-        }
-    }
 
     fun getProductsByCategory(categories: Categories<ApiCategories>) {
 
@@ -131,18 +111,6 @@ class ProductsViewModel @Inject constructor(
             }
         }
         addProductsDBUseCase(productsEntity)
-    }
-
-    fun addProductDB(product: ProductEntity) {
-        viewModelScope.launch {
-            addProductDBUseCase(product)
-        }
-    }
-
-    fun getProductById(id: Int) {
-        viewModelScope.launch {
-            getProductByIdUseCase(id)
-        }
     }
 
 

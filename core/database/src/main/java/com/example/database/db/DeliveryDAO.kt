@@ -24,6 +24,8 @@ interface DeliveryDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addOrder(orderEntity: OrderEntity): Long
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addOrderById(orderEntity: OrderEntity): Long
 
     @Delete
     suspend fun deleteProductQuantity(productQuantity: ProductQuantityEntity)

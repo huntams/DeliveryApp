@@ -11,6 +11,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.common.PrefsStorage
 import com.example.qrcode.databinding.FragmentCameraBinding
@@ -81,7 +82,7 @@ class QrCodeFragment : Fragment(R.layout.fragment_camera) {
         }.addOnSuccessListener { barcodes ->
             if (barcodes.isNotEmpty()) {
                 prefsStorage.coins += Random.nextInt(300, 1000)
-                activity?.onBackPressedDispatcher?.onBackPressed()
+                findNavController().popBackStack()
             }
         }.addOnFailureListener {
             it.printStackTrace()

@@ -53,24 +53,30 @@ dependencies {
     implementation project(":core:domain")
     implementation project(":core:model")
     implementation project(":core:network")
+    implementation project(":core:database")
+
     //DI
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-
 
     implementation "com.squareup:javapoet:$javapoet_version"
     implementation "androidx.core:core-splashscreen:$splashscreen_version"
 
     //Network
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "io.coil-kt:coil-compose:2.5.0"
     implementation "io.coil-kt:coil:$coil_version"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$serialization_version"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$json_serialization_version"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 
-    //UI
+
+    //Compose
     implementation platform("androidx.compose:compose-bom:2023.06.01")
     implementation "androidx.activity:activity-compose:1.8.1"
     implementation "androidx.compose.material3:material3"
@@ -82,7 +88,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling"
     debugImplementation "androidx.compose.ui:ui-test-manifest"
 
-
+    //UI
     // reflection-free flavor
     implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$viewbinding_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
@@ -92,6 +98,9 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
     implementation "androidx.recyclerview:recyclerview-selection:$recyclerview_selection_version"
 
+    //Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     implementation "androidx.core:core-ktx:$kotlin_version"
     testImplementation "junit:junit:$junit_version"

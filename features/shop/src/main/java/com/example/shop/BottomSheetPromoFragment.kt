@@ -1,6 +1,5 @@
 package com.example.shop
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
@@ -28,7 +27,7 @@ class BottomSheetPromoFragment : BottomSheetDialogFragment(R.layout.fragment_pro
                     builder.setTitle("You received ${args.randomCoins} coins!!")
                     builder.setPositiveButton(
                         "Accept"
-                    ) { dialog, which ->
+                    ) { _, _ ->
                     }
                     builder.create().show()
 

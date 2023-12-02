@@ -12,7 +12,7 @@ class OneLineTextView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defAttrsSet: Int = 0
 ) : LinearLayout(context, attributeSet, defAttrsSet) {
-    private lateinit var binding: CustomTextviewOneLineBinding
+    private var binding: CustomTextviewOneLineBinding
 
     init {
         binding = CustomTextviewOneLineBinding.inflate(

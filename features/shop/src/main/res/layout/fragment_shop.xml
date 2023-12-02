@@ -5,8 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_alignParentBottom="true">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarMainActivity"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
 
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:menu="@menu/products_qr_menu"
+            app:titleCentered="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonLocation"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/location_button"
+                app:icon="@drawable/ic_arrow_down_24"
+                app:iconGravity="textEnd" />
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
     <androidx.core.widget.NestedScrollView
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
