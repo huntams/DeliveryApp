@@ -1,4 +1,4 @@
-package com.example.profiles
+package com.example.profiles.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,8 +20,8 @@ class ProfileViewModel @Inject constructor(
     val ordersLiveData: LiveData<List<OrderWithProductQuantity>> = _ordersLiveData
     fun getOrders() {
         viewModelScope.launch {
-            getOrdersWithProductsUseCase().collect {
-                _ordersLiveData.value = it.map {
+            getOrdersWithProductsUseCase().collect {list->
+                _ordersLiveData.value = list.map {
                     it.copy(
                         order = it.order,
                         productQuantity = it.productQuantity,

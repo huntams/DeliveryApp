@@ -2,12 +2,10 @@ package com.example.products.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.drawToBitmap
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.common.convertToByteArray
 import com.example.network.model.ApiProductCategory
 import com.example.products.R
 import com.example.products.databinding.ItemProductBinding
@@ -21,10 +19,6 @@ class ProductsAdapter @Inject constructor() :
     private var onClick: (ApiProductCategory) -> Unit = {}
     fun setCallback(callback: (ApiProductCategory) -> Unit) {
         this.onClick = callback
-    }
-
-    private fun getImage(binding: ItemProductBinding): ByteArray {
-        return binding.imageViewProduct.drawToBitmap().convertToByteArray()
     }
 
     private var buttonClick: (ApiProductCategory) -> Unit = {}
@@ -48,7 +42,7 @@ class ProductsAdapter @Inject constructor() :
         fun bind(item: ApiProductCategory) {
 
             with(binding) {
-                buttonPrice.text = "${item.price} р."
+                buttonPrice.text = item.getFormattedPrice()
                 imageViewProduct.load(item.strMealThumb) {
                     crossfade(true)
                     placeholder(R.drawable.ic_placeholder_135)

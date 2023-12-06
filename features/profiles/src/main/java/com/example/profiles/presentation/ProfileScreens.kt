@@ -1,0 +1,183 @@
+package com.example.profiles.presentation
+
+import androidx.annotation.StringRes
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.model.Order
+import com.example.model.OrderWithProductQuantity
+import com.example.model.Product
+import com.example.model.ProductQuantity
+import com.example.model.ProductQuantityAndProduct
+import com.example.profiles.R
+
+
+enum class ProfileScreens(@StringRes val title: Int) {
+    Start(title = R.string.hello),
+    Orders(title = R.string.history_of_orders),
+    Addresses(title = R.string.delivery_addresses),
+    Settings(title = R.string.settings)
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NavigateAppBar(
+    @StringRes currentScreenTitle: Int,
+    canNavigateBack: Boolean,
+    navigateUp: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    CenterAlignedTopAppBar(
+        title = { Text(stringResource(currentScreenTitle)) },
+        modifier = modifier,
+        navigationIcon = {
+            if (canNavigateBack) {
+                IconButton(onClick = navigateUp) {
+                    Icon(
+                        imageVector = Icons.Filled.Clear,
+                        contentDescription = stringResource(R.string.back_button)
+                    )
+                }
+            }
+        }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopAppBarCustom(onSettingsButtonClicked: () -> Unit, scrollBehavior: TopAppBarScrollBehavior?) {
+    TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
+        containerColor = MaterialTheme.colorScheme.primary
+    ), title = {
+        Column {
+            Text(
+                text = stringResource(R.string.hello),
+                style = MaterialTheme.typography.titleLarge
+            )
+            Text(
+                text = stringResource(R.string.hello),
+                style = MaterialTheme.typography.titleSmall
+            )
+
+        }
+
+    }, actions = {
+        IconButton(onClick = onSettingsButtonClicked) {
+            Icon(
+                imageVector = Icons.Filled.Info, contentDescription = "Localized description"
+            )
+        }
+    }, scrollBehavior = scrollBehavior
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ProfileFeature() {
+    val navController = rememberNavController()
+    // Get current back stack entry
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    // Get the name of the current screen
+    val currentScreen = ProfileScreens.valueOf(
+        backStackEntry?.destination?.route ?: ProfileScreens.Start.name
+    )
+
+    Scaffold(
+        topBar = {
+            if (navController.previousBackStackEntry != null) {
+                NavigateAppBar(
+                    currentScreenTitle = currentScreen.title,
+                    canNavigateBack = navController.previousBackStackEntry != null,
+                    navigateUp = { navController.navigateUp() }
+                )
+            } else {
+                val scrollBehavior =
+                    TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+                Column(modifier = Modifier.background(MaterialTheme.colorScheme.primary)) {
+                    TopAppBarCustom(
+                        { navController.navigate(ProfileScreens.Settings.name) },
+                        scrollBehavior = scrollBehavior
+                    )
+                }
+            }
+        }
+    ) { innerPadding ->
+        //val uiState by viewModel.uiState.collectAsState()
+        NavHost(
+            navController = navController,
+            startDestination = ProfileScreens.Start.name,
+        ) {
+            composable(route = ProfileScreens.Start.name) {
+                ProfileScreen(
+                    onHistoryClicked = {
+                        navController.navigate(ProfileScreens.Orders.name)
+                    },
+                    onAddressesClicked = {
+                        navController.navigate(ProfileScreens.Addresses.name)
+                    },
+                    modifier = Modifier.padding(innerPadding)
+                )
+            }
+
+            composable(route = ProfileScreens.Orders.name) {
+                Orders(
+                    listOf(
+                        OrderWithProductQuantity(
+                            Order(
+                                orderId = 1,
+                                totalPrice = 444,
+                            ),
+                            listOf(
+                                ProductQuantityAndProduct(
+                                    ProductQuantity(id = 1, orderId = 1, quantity = 4),
+                                    Product(
+                                        id = 1,
+                                        nameProduct = "Food",
+                                        productCategory = "Chicken",
+                                        200,
+                                        3,
+                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx1z3Nmzsk_fDBn84ZFlNJYigwwuyg419aYnDLwbG4CQ&s"
+                                    )
+                                )
+                            )
+                        )
+                    ), modifier = Modifier.padding(innerPadding)
+                )
+            }
+
+            composable(route = ProfileScreens.Addresses.name) {
+                AddressScreen(
+                    modifier = Modifier.padding(innerPadding)
+                )
+            }
+
+            composable(route = ProfileScreens.Settings.name) {
+                SettingsScreen(
+                    modifier = Modifier.padding(innerPadding)
+                )
+            }
+        }
+    }
+}

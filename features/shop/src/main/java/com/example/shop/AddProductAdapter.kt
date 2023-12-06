@@ -38,7 +38,7 @@ class AddProductAdapter @Inject constructor() :
 
             with(binding) {
                 textViewProduct.text = item.nameProduct
-                buttonPrice.text = "${item.productPrice} р."
+                buttonPrice.text = item.getFormattedPrice()
                 imageViewProduct.load(item.image)
                 buttonPrice.setOnClickListener {
                     onButtonClick.invoke(item)

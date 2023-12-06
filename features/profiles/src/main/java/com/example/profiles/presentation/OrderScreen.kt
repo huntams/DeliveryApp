@@ -1,4 +1,4 @@
-package com.example.profiles
+package com.example.profiles.presentation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -9,10 +9,8 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,13 +40,13 @@ import com.example.model.OrderWithProductQuantity
 import com.example.model.Product
 import com.example.model.ProductQuantity
 import com.example.model.ProductQuantityAndProduct
+import com.example.profiles.DeliveryAppTheme
 
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Orders(
     orders: List<OrderWithProductQuantity>,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
     modifier: Modifier = Modifier
 ) {
 
@@ -58,62 +56,59 @@ fun Orders(
             targetState = true
         }
     }
-        AnimatedVisibility(
-            visibleState = visibleState,
-            enter = fadeIn(
-                animationSpec = spring(dampingRatio = Spring.DampingRatioLowBouncy)
-            ),
-            exit = fadeOut(),
-            modifier = modifier
-        ) {
-            LazyColumn(modifier = modifier) {
-                orders.forEach { order ->
-                    item {
-                        Text(
-                            text = "Order №${order.order.orderId}",
-                            style = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.padding(top = 8.dp, start = 8.dp)
-                        )
+    AnimatedVisibility(
+        visibleState = visibleState,
+        enter = fadeIn(
+            animationSpec = spring(dampingRatio = Spring.DampingRatioLowBouncy)
+        ),
+        exit = fadeOut(),
+        modifier = modifier
+    ) {
+        LazyColumn(modifier = Modifier) {
+            orders.forEach { order ->
+                item {
+                    Text(
+                        text = "Order №${order.order.orderId}",
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(top = 8.dp, start = 8.dp)
+                    )
 
-                        val items = order.productQuantity.sumOf {
-                            it.productQuantity.quantity
-                        }
-                        val total = order.productQuantity.sumOf {
-                            it.product.productPrice * it.productQuantity.quantity
-                        }
-                        Text(
-                            text = "$items product for $total р.",
-                            style = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.padding(top = 8.dp, start = 8.dp)
-                        )
-                        Text(
-                            text = "Recieved deliverycoins",
-                            style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.padding(top = 8.dp, start = 8.dp)
-                        )
+                    val items = order.productQuantity.sumOf {
+                        it.productQuantity.quantity
                     }
-                    itemsIndexed(order.productQuantity) { index, productQuantity ->
-                        ProductListItem(
-                            productQuantity = productQuantity,
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp, vertical = 8.dp)
-                                // Animate each list item to slide in vertically
-                                .animateEnterExit(
-                                    enter = slideInVertically(
-                                        animationSpec = spring(
-                                            stiffness = Spring.StiffnessVeryLow,
-                                            dampingRatio = Spring.DampingRatioLowBouncy
-                                        ),
-                                        initialOffsetY = { it * (index + 1) } // staggered entrance
-                                    )
-                                )
-                        )
-                    }
-
+                    Text(
+                        text = "$items product for ${order.order.totalPrice} р.",
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(top = 8.dp, start = 8.dp)
+                    )
+                    Text(
+                        text = "Recieved deliverycoins",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(top = 8.dp, start = 8.dp)
+                    )
                 }
-            }
+                itemsIndexed(order.productQuantity) { index, productQuantity ->
+                    ProductListItem(
+                        productQuantity = productQuantity,
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            // Animate each list item to slide in vertically
+                            .animateEnterExit(
+                                enter = slideInVertically(
+                                    animationSpec = spring(
+                                        stiffness = Spring.StiffnessVeryLow,
+                                        dampingRatio = Spring.DampingRatioLowBouncy
+                                    ),
+                                    initialOffsetY = { it * (index + 1) } // staggered entrance
+                                )
+                            )
+                    )
+                }
 
+            }
         }
+
+    }
 }
 
 @Composable
@@ -165,7 +160,7 @@ fun ProductListItem(productQuantity: ProductQuantityAndProduct, modifier: Modifi
             ) {
                 Text(
                     modifier = Modifier.padding(8.dp),
-                    text = "${productQuantity.product.productPrice} р.",
+                    text = productQuantity.product.getFormattedPrice(),
                     style = MaterialTheme.typography.titleLarge
                 )
                 Spacer(Modifier.weight(1f))
@@ -204,7 +199,7 @@ fun ProductPreview(modifier: Modifier = Modifier) {
 @Preview()
 @Composable
 private fun OrderCardPreview() {
-    HappyBirthdayTheme {
+    DeliveryAppTheme {
         Surface(
             modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
         ) {

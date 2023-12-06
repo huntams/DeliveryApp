@@ -19,7 +19,6 @@ import com.example.model.ProductQuantity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class ShopViewModel @Inject constructor(
@@ -39,7 +38,7 @@ class ShopViewModel @Inject constructor(
     private val _idLiveData = MutableLiveData<Long>()
     val idLiveData: LiveData<Long> = _idLiveData
 
-    val price: Int = Random.nextInt(300, 1000)
+
     fun getOrderById(data: Long) {
         viewModelScope.launch {
             getOrderWithProductByIdUseCase(data).collect {
@@ -89,7 +88,7 @@ class ShopViewModel @Inject constructor(
     fun totalPrice(order: OrderWithProductQuantity): Int {
         return order.productQuantity.sumOf {
             it.product.productPrice * it.productQuantity.quantity
-        } + price
+        }
     }
 
     fun addProductQuantity(quantity: Int, orderId: Long, productId: Long) {

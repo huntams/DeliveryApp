@@ -43,7 +43,7 @@ class OrderAdapter @Inject constructor() :
 
             with(binding) {
                 buttonCount.text = item.productQuantity.quantity.toString()
-                val textProductPrice ="${item.product.productPrice} р."
+                val textProductPrice =item.product.getFormattedPrice()
                 textViewProductPrice.text = textProductPrice
                 imageViewProduct.load(item.product.image)
                 textViewNameProduct.text = item.product.nameProduct

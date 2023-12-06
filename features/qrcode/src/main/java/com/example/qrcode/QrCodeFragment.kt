@@ -60,7 +60,7 @@ class QrCodeFragment : Fragment(R.layout.fragment_camera) {
 
     private fun bindAnalyzer() {
         val barcodeScanner = BarcodeScanning.getClient(
-            BarcodeScannerOptions.Builder().setBarcodeFormats(Barcode.FORMAT_QR_CODE).build()
+            BarcodeScannerOptions.Builder().setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS).build()
         )
         imageAnalysis =
             ImageAnalysis.Builder().setTargetRotation(binding.viewFinder.display.rotation).build()

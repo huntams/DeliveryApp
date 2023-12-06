@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.common.PrefsStorage
+import com.example.common.getFormattedPrice
 import com.example.shop.databinding.FragmentOrderBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +17,7 @@ import javax.inject.Inject
 class OrderSheetFragment : BottomSheetDialogFragment(R.layout.fragment_order) {
 
     private val binding by viewBinding(FragmentOrderBinding::bind)
+
     @Inject
     lateinit var prefsStorage: PrefsStorage
     private val viewModel by viewModels<ShopViewModel>()
@@ -24,7 +26,7 @@ class OrderSheetFragment : BottomSheetDialogFragment(R.layout.fragment_order) {
         with(binding) {
             viewModel.getOrderById(args.orderId)
             viewModel.orderLiveData.observe(viewLifecycleOwner) { order ->
-                val total = "${viewModel.totalPrice(order)} р."
+                val total = getFormattedPrice(viewModel.totalPrice(order) + args.deliveryPrice)
                 setOneLineData(
                     oneLineViewProductPrice,
                     "${
@@ -32,20 +34,24 @@ class OrderSheetFragment : BottomSheetDialogFragment(R.layout.fragment_order) {
                             it.productQuantity.quantity
                         }
                     } product",
-                    total
+                    getFormattedPrice(viewModel.totalPrice(order))
                 )
                 setOneLineData(
                     oneLineViewDeliveryPrice, getString(R.string.delivery),
-                    getString(R.string.free)
+                    getFormattedPrice(args.deliveryPrice)
                 )
                 setOneLineData(
                     oneLineViewTotal,
                     getString(R.string.order_price), total
                 )
                 buttonOrder.setOnClickListener {
-                    viewModel.addOrderById(orderId = order.order.orderId,totalPrice =viewModel.totalPrice(order),coins =args.deliveryCoins)
+                    viewModel.addOrderById(
+                        orderId = order.order.orderId,
+                        totalPrice = viewModel.totalPrice(order) + args.deliveryPrice,
+                        coins = args.deliveryCoins
+                    )
                     viewModel.addOrder()
-                    viewModel.idLiveData.observe(viewLifecycleOwner){
+                    viewModel.idLiveData.observe(viewLifecycleOwner) {
                         prefsStorage.order = it
                         findNavController().navigate(OrderSheetFragmentDirections.actionOrderSheetFragmentToShopFragment())
                     }

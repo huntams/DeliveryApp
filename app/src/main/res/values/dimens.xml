@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="product_image_size">135dp</dimen>
-    <dimen name="splash_screen_icon_size_width">180dp</dimen>
+    <dimen name="splash_screen_icon_size_width">192dp</dimen>
     <dimen name="splash_screen_icon_size_height">192dp</dimen>
 </resources>

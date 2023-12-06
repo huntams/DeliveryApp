@@ -19,8 +19,8 @@ class BottomSheetPromoFragment : BottomSheetDialogFragment(R.layout.fragment_pro
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding) {
             buttonAccept.setOnClickListener {
-                if (usernameTextInputEditText.text?.isEmpty() == true) {
-                    usernameTextInputLayout.error = "Input promo-code"
+                if (textInputEditTextPromo.text?.isEmpty() == true) {
+                    textInputLayoutPromo.error = "Input promo-code"
                 } else {
                     val builder = MaterialAlertDialogBuilder(requireContext())
                     builder.setMessage("YOU WIN!!!")

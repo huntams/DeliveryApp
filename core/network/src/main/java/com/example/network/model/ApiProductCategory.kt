@@ -2,6 +2,7 @@ package com.example.network.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.text.NumberFormat
 import kotlin.random.Random
 
 @Serializable
@@ -14,4 +15,7 @@ data class ApiProductCategory(
     val idMeal: Long,
     val price: Int = Random.nextInt(300, 1000),
     var countItem: Int = 0,
-)
+
+){
+    fun getFormattedPrice(): String = NumberFormat.getCurrencyInstance().format(price)
+}

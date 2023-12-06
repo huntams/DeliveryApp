@@ -7,8 +7,8 @@
     <fragment
         android:id="@+id/shopFragment"
         android:name="com.example.shop.ShopFragment"
-        tools:layout="@layout/fragment_shop"
-        android:label="ShopFragment" >
+        android:label="ShopFragment"
+        tools:layout="@layout/fragment_shop">
         <action
             android:id="@+id/action_shopFragment_to_bottomSheetPromoFragment"
             app:destination="@id/bottomSheetPromoFragment" />
@@ -23,17 +23,17 @@
     <dialog
         android:id="@+id/bottomSheetPromoFragment"
         android:name="com.example.shop.BottomSheetPromoFragment"
-        tools:layout="@layout/fragment_promocode"
-        android:label="BottomSheetPromoFragment" >
+        android:label="BottomSheetPromoFragment"
+        tools:layout="@layout/fragment_promocode">
         <argument
             android:name="randomCoins"
             app:argType="integer" />
     </dialog>
     <dialog
         android:id="@+id/orderSheetFragment"
-        tools:layout="@layout/fragment_order"
         android:name="com.example.shop.OrderSheetFragment"
-        android:label="OrderSheetFragment" >
+        android:label="OrderSheetFragment"
+        tools:layout="@layout/fragment_order">
         <argument
             android:name="orderId"
             app:argType="long" />
@@ -45,6 +45,9 @@
             app:destination="@id/shopFragment"
             app:popUpTo="@id/shopFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="deliveryPrice"
+            app:argType="integer" />
     </dialog>
     <include app:graph="@navigation/qrcode_nav_graph" />
 

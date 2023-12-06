@@ -9,6 +9,7 @@ import android.net.Uri
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import androidx.core.content.ContextCompat
 import java.io.ByteArrayOutputStream
+import java.text.NumberFormat
 
 fun Bitmap.convertToByteArray(): ByteArray = ByteArrayOutputStream().apply {
     compress(Bitmap.CompressFormat.JPEG, 50, this)
@@ -26,7 +27,7 @@ inline fun Context.cameraPermissionRequest(crossinline positive: () -> Unit) {
         }.setNegativeButton(" Cancel") { dialog, which -> }.show()
 }
 
-
+fun getFormattedPrice(price: Int): String = NumberFormat.getCurrencyInstance().format(price)
 fun Context.openPermissionSetting(){
     Intent(ACTION_APPLICATION_DETAILS_SETTINGS).also {
         it.data = Uri.fromParts("package",packageName,null)

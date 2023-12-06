@@ -75,6 +75,10 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$json_serialization_version"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 
+    //Compose DI
+    implementation "androidx.hilt:hilt-navigation-compose:1.1.0"
+
+    implementation "androidx.navigation:navigation-compose:2.7.5"
 
     //Compose
     implementation platform("androidx.compose:compose-bom:2023.06.01")
