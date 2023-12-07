@@ -22,17 +22,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.model.Order
-import com.example.model.OrderWithProductQuantity
-import com.example.model.Product
-import com.example.model.ProductQuantity
-import com.example.model.ProductQuantityAndProduct
 import com.example.profiles.R
-
 
 enum class ProfileScreens(@StringRes val title: Int) {
     Start(title = R.string.hello),
@@ -95,9 +91,10 @@ fun TopAppBarCustom(onSettingsButtonClicked: () -> Unit, scrollBehavior: TopAppB
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileFeature() {
+fun ProfileFeature(viewModel: ProfileViewModel = viewModel()) {
     val navController = rememberNavController()
     // Get current back stack entry
+    val suggestedDestinations by viewModel.ordersLiveData.collectAsStateWithLifecycle()
     val backStackEntry by navController.currentBackStackEntryAsState()
     // Get the name of the current screen
     val currentScreen = ProfileScreens.valueOf(
@@ -132,6 +129,7 @@ fun ProfileFeature() {
             composable(route = ProfileScreens.Start.name) {
                 ProfileScreen(
                     onHistoryClicked = {
+                        viewModel.getOrders()
                         navController.navigate(ProfileScreens.Orders.name)
                     },
                     onAddressesClicked = {
@@ -143,27 +141,7 @@ fun ProfileFeature() {
 
             composable(route = ProfileScreens.Orders.name) {
                 Orders(
-                    listOf(
-                        OrderWithProductQuantity(
-                            Order(
-                                orderId = 1,
-                                totalPrice = 444,
-                            ),
-                            listOf(
-                                ProductQuantityAndProduct(
-                                    ProductQuantity(id = 1, orderId = 1, quantity = 4),
-                                    Product(
-                                        id = 1,
-                                        nameProduct = "Food",
-                                        productCategory = "Chicken",
-                                        200,
-                                        3,
-                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx1z3Nmzsk_fDBn84ZFlNJYigwwuyg419aYnDLwbG4CQ&s"
-                                    )
-                                )
-                            )
-                        )
-                    ), modifier = Modifier.padding(innerPadding)
+                    orders = suggestedDestinations, modifier = Modifier.padding(innerPadding)
                 )
             }
 

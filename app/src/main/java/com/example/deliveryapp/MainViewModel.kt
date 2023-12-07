@@ -1,25 +1,22 @@
-package com.example.profiles.presentation
+package com.example.deliveryapp
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.db.GetOrdersWithProductsUseCase
 import com.example.model.OrderWithProductQuantity
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val getOrdersWithProductsUseCase: GetOrdersWithProductsUseCase,
+) : ViewModel() {
 
-    ) : ViewModel() {
-
-    private val _ordersLiveData = MutableStateFlow<List<OrderWithProductQuantity>>(emptyList())
-    val ordersLiveData: StateFlow<List<OrderWithProductQuantity>> = _ordersLiveData.asStateFlow()
-
+    private val _ordersLiveData = MutableLiveData<List<OrderWithProductQuantity>>()
+    val ordersLiveData: LiveData<List<OrderWithProductQuantity>> = _ordersLiveData
     fun getOrders() {
         viewModelScope.launch {
             getOrdersWithProductsUseCase().collect { list ->
@@ -32,5 +29,4 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
-
 }

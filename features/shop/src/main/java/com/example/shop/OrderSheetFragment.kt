@@ -53,6 +53,11 @@ class OrderSheetFragment : BottomSheetDialogFragment(R.layout.fragment_order) {
                     viewModel.addOrder()
                     viewModel.idLiveData.observe(viewLifecycleOwner) {
                         prefsStorage.order = it
+                        activity?.startService(
+                            OrderService.newIntent(
+                                requireContext()
+                            )
+                        )
                         findNavController().navigate(OrderSheetFragmentDirections.actionOrderSheetFragmentToShopFragment())
                     }
                 }

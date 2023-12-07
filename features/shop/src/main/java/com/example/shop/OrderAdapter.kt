@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.data.R.drawable.ic_placeholder_135
 import com.example.model.ProductQuantityAndProduct
 import com.example.shop.databinding.ItemProductQuantityBinding
 import javax.inject.Inject
@@ -45,7 +46,10 @@ class OrderAdapter @Inject constructor() :
                 buttonCount.text = item.productQuantity.quantity.toString()
                 val textProductPrice =item.product.getFormattedPrice()
                 textViewProductPrice.text = textProductPrice
-                imageViewProduct.load(item.product.image)
+                imageViewProduct.load(item.product.image){
+                    crossfade(true)
+                    placeholder(ic_placeholder_135)
+                }
                 textViewNameProduct.text = item.product.nameProduct
                 textViewInfoProduct.text = item.product.productCategory
 
@@ -53,7 +57,6 @@ class OrderAdapter @Inject constructor() :
                     onMinusClick.invoke(item)
                 }
                 buttonPlus.setOnClickListener {
-                    //buttonCount.text = "${buttonCount.text.toString().toInt() + 1}"
                     onPlusClick.invoke(item)
                 }
             }
