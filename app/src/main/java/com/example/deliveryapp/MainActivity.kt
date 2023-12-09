@@ -26,47 +26,19 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         setContentView(binding.root)
         val navController = navHostFragment.navController
         binding.bottomNavigation.setupWithNavController(navController)
-
         viewModel.getOrders()
+
         viewModel.ordersLiveData.observe(this) { list ->
 
-            val badge = binding.bottomNavigation.getOrCreateBadge(R.id.shop_nav_graph)
-            badge.isVisible = true
-            badge.number = list.last().productQuantity.sumOf {
-                it.productQuantity.quantity
+            if (list.isNotEmpty()) {
+                val badge = binding.bottomNavigation.getOrCreateBadge(R.id.shop_nav_graph)
+                badge.isVisible = true
+                badge.number = list.last().productQuantity.sumOf {
+                    it.productQuantity.quantity
+                }
             }
         }
 
     }
 
-    /*
-    fun test() {
-        viewModel.getOrders()
-        data = true
-    }
-
-    private fun createNotification(): Notification {
-        createNotificationChannel()
-        return NotificationCompat.Builder(
-            this,
-            RandomProductPushNotificationService.NOTIFICATION_CHANNEL_ID
-        )
-            .setContentTitle(getString(com.example.shop.R.string.channel_name))
-            .setSmallIcon(com.example.data.R.drawable.ic_delivery_24)
-            .build()
-    }
-
-    private fun createNotificationChannel() {
-        val channel = NotificationChannelCompat.Builder(
-            RandomProductPushNotificationService.NOTIFICATION_CHANNEL_ID,
-            NotificationManagerCompat.IMPORTANCE_MAX,
-        ).setName(getString(com.example.shop.R.string.channel_name))
-            .setLightsEnabled(true)
-            .setLightColor(Color.RED)
-            .setVibrationEnabled(true)
-            .setVibrationPattern(longArrayOf(0, 1000, 500, 1000))
-            .build()
-        NotificationManagerCompat.from(this).createNotificationChannel(channel)
-    }
-     */
 }

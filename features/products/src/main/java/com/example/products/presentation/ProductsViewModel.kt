@@ -8,17 +8,12 @@ import com.example.common.ResultLoader
 import com.example.database.model.ProductEntity
 import com.example.database.model.ProductQuantityEntity
 import com.example.domain.GetCategoriesUseCase
-import com.example.domain.GetProductByIdUseCase
 import com.example.domain.GetProductsByCategoryUseCase
-import com.example.domain.db.AddOrderDBUseCase
 import com.example.domain.db.AddProductCrossRefUseCase
-import com.example.domain.db.AddProductDBUseCase
 import com.example.domain.db.AddProductQuantityUseCase
 import com.example.domain.db.AddProductsDBUseCase
-import com.example.domain.db.GetOrderWithProductByIdUseCase
 import com.example.domain.db.GetProductsUseCase
 import com.example.model.Categories
-import com.example.model.OrderWithProductQuantity
 import com.example.model.Product
 import com.example.network.model.ApiCategories
 import com.example.network.model.ApiProductCategory
@@ -34,6 +29,7 @@ class ProductsViewModel @Inject constructor(
     private val addProductCrossRefUseCase: AddProductCrossRefUseCase,
     private val getCategoriesUseCase: GetCategoriesUseCase,
     private val getProductsByCategoryUseCase: GetProductsByCategoryUseCase,
+    private val getProductsUseCase: GetProductsUseCase,
 ) : BaseViewModel() {
     private val _categoriesLiveData = MutableLiveData<ResultLoader<Categories<ApiCategories>>>()
     val categoriesLiveData: LiveData<ResultLoader<Categories<ApiCategories>>> = _categoriesLiveData
@@ -44,14 +40,32 @@ class ProductsViewModel @Inject constructor(
     val mealsLiveData: LiveData<ResultLoader<MutableMap<String, List<ApiProductCategory>>>> =
         _mealsLiveData
 
-    private val _orderLiveData = MutableLiveData<OrderWithProductQuantity>()
-    val orderLiveData: LiveData<OrderWithProductQuantity> = _orderLiveData
 
     private val _quantityIdLiveData = MutableLiveData<Long>()
-    val quantityIdLiveData: LiveData<Long> = _quantityIdLiveData
+
+    private val _productsLiveData = MutableLiveData<List<Product>>()
+    val productsLiveData: LiveData<List<Product>> = _productsLiveData
 
     init {
         getCategories()
+
+    }
+
+    fun getProducts() {
+        viewModelScope.launch {
+            getProductsUseCase().collect { list ->
+                val data = list.map { product ->
+                    ApiProductCategory(
+                        strMeal = product.productCategory,
+                        strMealThumb = product.nameProduct,
+                        price = product.productPrice,
+                        idMeal = product.id,
+                        countItem = product.productInCart
+                    )
+                }
+                _productsLiveData.postValue(list)
+            }
+        }
     }
 
     fun addProductQuantity(quantity: Int, orderId: Long, productId: Long) {
@@ -73,19 +87,39 @@ class ProductsViewModel @Inject constructor(
     }
 
 
-    fun getProductsByCategory(categories: Categories<ApiCategories>) {
+    fun getProductsByCategory(
+        categories: Categories<ApiCategories>,
+        list: List<Product>
+    ) {
 
         val meals = mutableMapOf<String, List<ApiProductCategory>>()
         viewModelScope.launch {
             try {
                 _mealsLiveData.postValue(ResultLoader.Loading())
-                for (meal in categories.meals) {
-                    getProductsByCategoryUseCase(meal.strCategory).also {
-                        meals[meal.strCategory] = it.meals
+                if (list.isEmpty()) {
+                    for (meal in categories.meals) {
+                        getProductsByCategoryUseCase(meal.strCategory).also {
+                            meals[meal.strCategory] = it.meals
+                        }
                     }
+                    _mealsLiveData.postValue(ResultLoader.Success(meals))
+                    addProductsDB(meals)
+                } else {
+                    for (meal in categories.meals) {
+                        val data =
+                            list.filter { it.productCategory == meal.strCategory }.map { product ->
+                                ApiProductCategory(
+                                    strMeal = product.nameProduct,
+                                    strMealThumb = product.image,
+                                    price = product.productPrice,
+                                    idMeal = product.id,
+                                    countItem = product.productInCart
+                                )
+                            }
+                        meals[meal.strCategory] = data
+                    }
+                    _mealsLiveData.postValue(ResultLoader.Success(meals))
                 }
-                _mealsLiveData.postValue(ResultLoader.Success(meals))
-                addProductsDB(meals)
             } catch (t: Throwable) {
                 _mealsLiveData.postValue(ResultLoader.Failure(t))
             }

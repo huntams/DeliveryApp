@@ -24,14 +24,10 @@ class RandomProductPushNotificationService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
 
-
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notification = createNotification()
-
         notificationManager.notify(1000, notification)
-
-
     }
 
     private fun createNotification(): Notification {

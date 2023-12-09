@@ -2,6 +2,7 @@ package com.example.shop
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,10 +21,22 @@ class OrderSheetFragment : BottomSheetDialogFragment(R.layout.fragment_order) {
 
     @Inject
     lateinit var prefsStorage: PrefsStorage
+
+    @Inject
+    lateinit var timeDeliveryAdapter: TimeDeliveryAdapter
+
     private val viewModel by viewModels<ShopViewModel>()
     private val args: OrderSheetFragmentArgs by navArgs()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding) {
+
+            val list = viewModel.getTimeDelivery()
+            var orderTime = list[0].time
+            timeDeliveryAdapter.submitList(list)
+            binding.recyclerViewTimeDelivery.adapter = timeDeliveryAdapter
+            timeDeliveryAdapter.setButtonCallback {
+                Toast.makeText(requireContext(),it.time.toString(),Toast.LENGTH_LONG).show()
+            }
             viewModel.getOrderById(args.orderId)
             viewModel.orderLiveData.observe(viewLifecycleOwner) { order ->
                 val total = getFormattedPrice(viewModel.totalPrice(order) + args.deliveryPrice)
@@ -53,13 +66,18 @@ class OrderSheetFragment : BottomSheetDialogFragment(R.layout.fragment_order) {
                     viewModel.addOrder()
                     viewModel.idLiveData.observe(viewLifecycleOwner) {
                         prefsStorage.order = it
+
                         activity?.startService(
                             OrderService.newIntent(
+                                orderTime,
                                 requireContext()
                             )
                         )
                         findNavController().navigate(OrderSheetFragmentDirections.actionOrderSheetFragmentToShopFragment())
                     }
+                }
+                timeDeliveryAdapter.setButtonCallback {
+                    orderTime = it.time
                 }
             }
         }

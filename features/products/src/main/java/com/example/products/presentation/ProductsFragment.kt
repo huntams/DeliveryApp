@@ -9,6 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.common.PrefsStorage
 import com.example.common.ResultLoader
 import com.example.model.Categories
+import com.example.model.Product
 import com.example.network.model.ApiCategories
 import com.example.products.R
 import com.example.products.databinding.FragmentProductsBinding
@@ -39,6 +40,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
         super.onViewCreated(view, savedInstanceState)
         var category: String
         val banners = BannersAdapter(List(Random.nextInt(1, 10)) { UUID.randomUUID().toString() })
+        var listProducts = listOf<Product>()
         var resultCategories: Categories<ApiCategories> = Categories(listOf())
         binding.recyclerViewBanners.apply {
             adapter = banners
@@ -54,7 +56,11 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                     }
                     binding.recyclerViewCategories.adapter = categoriesAdapter
                     resultCategories = result.value
-                    viewModel.getProductsByCategory(resultCategories)
+                    viewModel.getProducts()
+                    viewModel.productsLiveData.observe(viewLifecycleOwner) {
+                        listProducts = it
+                        viewModel.getProductsByCategory(resultCategories, it)
+                    }
                 }
 
                 is ResultLoader.Loading -> {
@@ -100,7 +106,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                         Snackbar.LENGTH_INDEFINITE
                     )
                     mySnackbar.setAction("Reload") {
-                        viewModel.getProductsByCategory(resultCategories)
+                        viewModel.getProductsByCategory(resultCategories, listProducts)
                     }
                     mySnackbar.show()
                 }

@@ -18,7 +18,9 @@ import com.example.model.Product
 import com.example.model.ProductQuantity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class ShopViewModel @Inject constructor(
@@ -48,6 +50,16 @@ class ShopViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun getTimeDelivery(): List<TimeData> {
+        val times = mutableListOf<TimeData>()
+        var startTime = Date().time + 30_000
+        for (i in 1..(Random.nextInt(5, 15))) {
+            times.add(TimeData(i, startTime))
+            startTime += (Random.nextInt(1, 5) * 60_000)
+        }
+        return times
     }
 
     fun addOrder() {

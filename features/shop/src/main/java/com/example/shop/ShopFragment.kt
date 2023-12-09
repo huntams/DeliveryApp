@@ -33,6 +33,7 @@ class ShopFragment : Fragment(R.layout.fragment_shop) {
     @Inject
     lateinit var addProductAdapter: AddProductAdapter
 
+
     private val cameraPermission = android.Manifest.permission.CAMERA
 
     private val requestPermissionLauncher =
