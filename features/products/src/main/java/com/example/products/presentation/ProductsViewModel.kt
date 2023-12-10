@@ -16,7 +16,6 @@ import com.example.domain.db.GetProductsUseCase
 import com.example.model.Categories
 import com.example.model.Product
 import com.example.network.model.ApiCategories
-import com.example.network.model.ApiProductCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,8 +35,8 @@ class ProductsViewModel @Inject constructor(
 
 
     private val _mealsLiveData =
-        MutableLiveData<ResultLoader<MutableMap<String, List<ApiProductCategory>>>>()
-    val mealsLiveData: LiveData<ResultLoader<MutableMap<String, List<ApiProductCategory>>>> =
+        MutableLiveData<ResultLoader<MutableMap<String, List<Product>>>>()
+    val mealsLiveData: LiveData<ResultLoader<MutableMap<String, List<Product>>>> =
         _mealsLiveData
 
 
@@ -54,15 +53,6 @@ class ProductsViewModel @Inject constructor(
     fun getProducts() {
         viewModelScope.launch {
             getProductsUseCase().collect { list ->
-                val data = list.map { product ->
-                    ApiProductCategory(
-                        strMeal = product.productCategory,
-                        strMealThumb = product.nameProduct,
-                        price = product.productPrice,
-                        idMeal = product.id,
-                        countItem = product.productInCart
-                    )
-                }
                 _productsLiveData.postValue(list)
             }
         }
@@ -92,14 +82,23 @@ class ProductsViewModel @Inject constructor(
         list: List<Product>
     ) {
 
-        val meals = mutableMapOf<String, List<ApiProductCategory>>()
+        val meals = mutableMapOf<String, List<Product>>()
         viewModelScope.launch {
             try {
                 _mealsLiveData.postValue(ResultLoader.Loading())
                 if (list.isEmpty()) {
                     for (meal in categories.meals) {
                         getProductsByCategoryUseCase(meal.strCategory).also {
-                            meals[meal.strCategory] = it.meals
+                            meals[meal.strCategory] = it.meals.map { apiProduct ->
+                                Product(
+                                    id = apiProduct.idMeal,
+                                    nameProduct = apiProduct.strMeal,
+                                    productCategory = meal.strCategory,
+                                    productInCart = apiProduct.countItem,
+                                    productPrice = apiProduct.price,
+                                    image = apiProduct.strMealThumb,
+                                )
+                            }
                         }
                     }
                     _mealsLiveData.postValue(ResultLoader.Success(meals))
@@ -107,15 +106,7 @@ class ProductsViewModel @Inject constructor(
                 } else {
                     for (meal in categories.meals) {
                         val data =
-                            list.filter { it.productCategory == meal.strCategory }.map { product ->
-                                ApiProductCategory(
-                                    strMeal = product.nameProduct,
-                                    strMealThumb = product.image,
-                                    price = product.productPrice,
-                                    idMeal = product.id,
-                                    countItem = product.productInCart
-                                )
-                            }
+                            list.filter { it.productCategory == meal.strCategory }
                         meals[meal.strCategory] = data
                     }
                     _mealsLiveData.postValue(ResultLoader.Success(meals))
@@ -127,7 +118,7 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun addProductsDB(categories: MutableMap<String, List<ApiProductCategory>>) {
+    private suspend fun addProductsDB(categories: MutableMap<String, List<Product>>) {
 
         val productsEntity = mutableListOf<ProductEntity>()
         categories.forEach { category ->
@@ -135,11 +126,11 @@ class ProductsViewModel @Inject constructor(
                 productsEntity.add(
                     ProductEntity(
                         productCategory = category.key,
-                        image = product.strMealThumb,
-                        productPrice = product.price,
-                        productInCart = product.countItem,
-                        nameProduct = product.strMeal,
-                        productId = product.idMeal,
+                        image = product.productCategory,
+                        productPrice = product.productPrice,
+                        productInCart = product.productInCart,
+                        nameProduct = product.nameProduct,
+                        productId = product.id,
                     )
                 )
             }

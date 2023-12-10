@@ -20,6 +20,11 @@
     <string name="delivery">Delivery</string>
     <string name="free">Free</string>
     <string name="order_price">Order price</string>
-    <string name="channel_name">Delivery products</string>
+    <string name="channel_name">Products are being delivered…</string>
     <string name="time_start">In 35 minutes</string>
+    <string name="need_apikey">Need api-key for map</string>
+    <string name="total_product">%1$d product(s)</string>
+    <string name="you_win">YOU WIN!!!</string>
+    <string name="you_received_coins">You received %1$d coins!!</string>
+    <string name="products_delivered">Your products was delivered!</string>
 </resources>

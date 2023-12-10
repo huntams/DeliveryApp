@@ -47,6 +47,7 @@ class OrderAdapter @Inject constructor() :
                 val textProductPrice =item.product.getFormattedPrice()
                 textViewProductPrice.text = textProductPrice
                 imageViewProduct.load(item.product.image){
+                    error(ic_placeholder_135)
                     crossfade(true)
                     placeholder(ic_placeholder_135)
                 }

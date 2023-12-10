@@ -35,11 +35,16 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
     @Inject
     lateinit var prefs: PrefsStorage
 
+    private val banners by lazy {
+        BannersAdapter(List(Random.nextInt(1, 10)) {
+            UUID.randomUUID().toString()
+        })
+    }
+
+    private var category: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var category: String
-        val banners = BannersAdapter(List(Random.nextInt(1, 10)) { UUID.randomUUID().toString() })
         var listProducts = listOf<Product>()
         var resultCategories: Categories<ApiCategories> = Categories(listOf())
         binding.recyclerViewBanners.apply {
@@ -51,7 +56,6 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                 is ResultLoader.Success -> {
                     binding.progressBar.visibility = View.GONE
                     categoriesAdapter.apply {
-                        //Toast.makeText(requireContext(),result.toString(),Toast.LENGTH_LONG).show()
                         submitList(result.value.meals)
                     }
                     binding.recyclerViewCategories.adapter = categoriesAdapter
@@ -89,13 +93,15 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
         viewModel.mealsLiveData.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is ResultLoader.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.recyclerViewProducts.visibility = View.VISIBLE
-                    category = resultCategories.meals[0].strCategory
-                    productsAdapter.submitList(result.value[category])
+                    if (category.isBlank()) {
+                        category = resultCategories.meals[0].strCategory
+                        productsAdapter.submitList(result.value[category])
+                    }
                     binding.recyclerViewProducts.apply {
                         adapter = productsAdapter
                     }
+                    binding.progressBar.visibility = View.GONE
+                    binding.recyclerViewProducts.visibility = View.VISIBLE
                 }
 
                 is ResultLoader.Failure -> {
@@ -125,13 +131,13 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
         productsAdapter.setButtonCallback { apiproduct ->
 
             viewModel.addProductQuantity(
-                quantity = apiproduct.countItem,
+                quantity = apiproduct.productInCart,
                 orderId = prefs.order,
-                productId = apiproduct.idMeal
+                productId = apiproduct.id
             )
             viewModel.addProductCrossRef(
-                productId = apiproduct.idMeal,
-                productQuantityId = apiproduct.idMeal,
+                productId = apiproduct.id,
+                productQuantityId = apiproduct.id,
             )
         }
 

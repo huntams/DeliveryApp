@@ -108,7 +108,7 @@ class ShopFragment : Fragment(R.layout.fragment_shop) {
             }
         }
         binding.buttonLocation.setOnClickListener {
-            Toast.makeText(requireContext(), "Need api key for google maps", Toast.LENGTH_LONG)
+            Toast.makeText(requireContext(), getString(R.string.need_apikey), Toast.LENGTH_LONG)
                 .show()
         }
         orderAdapter.setCallbackMinusButton {

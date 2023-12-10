@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="happy_birthday_text">happy_birthday_text</string>
+    <string name="order">Заказ №%1$s</string>
+    <string name="exit">Выход</string>
+    <string name="settings">Настройки</string>
+    <string name="back_button">Назад</string>
+    <string name="history_of_orders">История заказов</string>
+    <string name="delivery_addresses">Адреса доставки</string>
+    <string name="hello">"Привет, "</string>
+    <string name="no_promotion_yet">Нет акций</string>
+    <string name="my_promotion">Мои акции</string>
+    <string name="missions">Миссии</string>
+    <string name="no_missions_yet">Нет миссий</string>
+    <string name="total_orders">%d заказов</string>
+    <string name="total_address">%d адрес(ов)</string>
+    <string name="product_for">%1$d продукт(ов) за %2$s</string>
+    <string name="received_deliverycoins">Получено деливерикоинов</string>
+    <string name="products_ordered">Продуктов заказано: %1$d</string>
+    <string name="happy_day">Мы желаем вам счастливого дня!</string>
+</resources>

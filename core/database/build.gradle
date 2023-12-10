@@ -70,6 +70,7 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 
     //UI
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
     // reflection-free flavor
     implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$viewbinding_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"

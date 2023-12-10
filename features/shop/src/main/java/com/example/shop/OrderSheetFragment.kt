@@ -42,11 +42,9 @@ class OrderSheetFragment : BottomSheetDialogFragment(R.layout.fragment_order) {
                 val total = getFormattedPrice(viewModel.totalPrice(order) + args.deliveryPrice)
                 setOneLineData(
                     oneLineViewProductPrice,
-                    "${
-                        order.productQuantity.sumOf {
-                            it.productQuantity.quantity
-                        }
-                    } product",
+                    getString(R.string.total_product, order.productQuantity.sumOf {
+                        it.productQuantity.quantity
+                    }),
                     getFormattedPrice(viewModel.totalPrice(order))
                 )
                 setOneLineData(

@@ -73,7 +73,7 @@ fun TopAppBarCustom(onSettingsButtonClicked: () -> Unit, scrollBehavior: TopAppB
                 style = MaterialTheme.typography.titleLarge
             )
             Text(
-                text = stringResource(R.string.hello),
+                text = stringResource(R.string.happy_day),
                 style = MaterialTheme.typography.titleSmall
             )
 
@@ -100,7 +100,7 @@ fun ProfileFeature(viewModel: ProfileViewModel = viewModel()) {
     val currentScreen = ProfileScreens.valueOf(
         backStackEntry?.destination?.route ?: ProfileScreens.Start.name
     )
-
+    viewModel.getOrders()
     Scaffold(
         topBar = {
             if (navController.previousBackStackEntry != null) {
@@ -128,8 +128,8 @@ fun ProfileFeature(viewModel: ProfileViewModel = viewModel()) {
         ) {
             composable(route = ProfileScreens.Start.name) {
                 ProfileScreen(
+                    orders = suggestedDestinations,
                     onHistoryClicked = {
-                        viewModel.getOrders()
                         navController.navigate(ProfileScreens.Orders.name)
                     },
                     onAddressesClicked = {

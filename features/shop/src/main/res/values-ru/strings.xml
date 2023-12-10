@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="qrcode">QRCode</string>
+    <string name="location_button">Москва</string>
+    <string name="total_price">%1$d продукт(ов) за %2$s</string>
+    <string name="delivery_price">Минимальная цена доставки — %s</string>
+    <string name="sauces">Соусы</string>
+    <string name="change_button">Изменить</string>
+    <string name="add_to_order">Добавить в заказ?</string>
+    <string name="input_promo">Введите промокод</string>
+    <string name="delivery_coins">Вы получили деливерикоинов</string>
+    <string name="button_order">Заказ на %s</string>
+    <string name="input_promo_code">Введите промокод</string>
+    <string name="accept">Принять</string>
+    <string name="delivery_to_address">Доставка по адресу</string>
+    <string name="time_to_delivery">Время доставки</string>
+    <string name="payment_method">Метод оплаты</string>
+    <string name="order_cost">Цена заказа</string>
+    <string name="Continue">Продолжить</string>
+    <string name="delivery">Доставка</string>
+    <string name="free">Бесплатно</string>
+    <string name="order_price">Цена заказа</string>
+    <string name="channel_name">Идёт доставка продуктов…</string>
+    <string name="time_start">В течении 35 минут</string>
+    <string name="need_apikey">Нужен api ключ для карт</string>
+    <string name="total_product">%1$d продукт(ов)</string>
+    <string name="you_win">ВЫ ВЫИГРАЛИ!!!</string>
+    <string name="you_received_coins">Вы получили %1$d монет!!</string>
+    <string name="products_delivered">Ваши продукты доставлены!</string>
+</resources>

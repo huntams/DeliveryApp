@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="happy_birthday_text">happy_birthday_text</string>
-    <string name="signature_text">signature_text</string>
     <string name="exit">Exit</string>
     <string name="settings">Settings</string>
     <string name="back_button">Back</string>
     <string name="history_of_orders">History of orders</string>
     <string name="delivery_addresses">Delivery addresses</string>
     <string name="hello">"Hello, "</string>
+    <string name="no_promotion_yet">No promotion yet</string>
+    <string name="my_promotion">My promotions</string>
+    <string name="missions">Missions</string>
+    <string name="no_missions_yet">No missions yet</string>
+    <string name="total_orders">%d orders</string>
+    <string name="total_address">%d address(es)</string>
+    <string name="order">Order №%1$d</string>
+    <string name="product_for">%1$d product for %2$s</string>
+    <string name="received_deliverycoins">Received deliverycoins</string>
+    <string name="products_ordered">"Products ordered: %1$d "</string>
+    <string name="happy_day">We wish you a happy day</string>
 </resources>

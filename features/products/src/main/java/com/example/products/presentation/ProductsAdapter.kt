@@ -6,23 +6,23 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.network.model.ApiProductCategory
+import com.example.model.Product
 import com.example.products.R
 import com.example.products.databinding.ItemProductBinding
 import javax.inject.Inject
 
 class ProductsAdapter @Inject constructor() :
-    ListAdapter<ApiProductCategory, ProductsAdapter.DataViewHolder>(
+    ListAdapter<Product, ProductsAdapter.DataViewHolder>(
         diffUtilCallback
     ) {
 
-    private var onClick: (ApiProductCategory) -> Unit = {}
-    fun setCallback(callback: (ApiProductCategory) -> Unit) {
+    private var onClick: (Product) -> Unit = {}
+    fun setCallback(callback: (Product) -> Unit) {
         this.onClick = callback
     }
 
-    private var buttonClick: (ApiProductCategory) -> Unit = {}
-    fun setButtonCallback(callback: (ApiProductCategory) -> Unit) {
+    private var buttonClick: (Product) -> Unit = {}
+    fun setButtonCallback(callback: (Product) -> Unit) {
         this.buttonClick = callback
     }
 
@@ -39,21 +39,22 @@ class ProductsAdapter @Inject constructor() :
     inner class DataViewHolder(
         private val binding: ItemProductBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ApiProductCategory) {
+        fun bind(item: Product) {
 
             with(binding) {
                 buttonPrice.text = item.getFormattedPrice()
-                imageViewProduct.load(item.strMealThumb) {
+                imageViewProduct.load(item.image) {
+                    error(R.drawable.ic_placeholder_135)
                     crossfade(true)
                     placeholder(R.drawable.ic_placeholder_135)
                 }
-                textViewNameProduct.text = item.strMeal
-                textViewInfoProduct.text = item.strMealThumb
+                textViewNameProduct.text = item.nameProduct
+                textViewInfoProduct.text = item.productCategory
                 root.setOnClickListener {
                     onClick.invoke(item)
                 }
                 buttonPrice.setOnClickListener {
-                    item.countItem = item.countItem + 1
+                    item.productInCart += 1
                     buttonClick(item)
                 }
 
@@ -63,19 +64,19 @@ class ProductsAdapter @Inject constructor() :
     }
 }
 
-private val diffUtilCallback = object : DiffUtil.ItemCallback<ApiProductCategory>() {
+private val diffUtilCallback = object : DiffUtil.ItemCallback<Product>() {
 
     override fun areContentsTheSame(
-        oldItem: ApiProductCategory,
-        newItem: ApiProductCategory
+        oldItem: Product,
+        newItem: Product
     ): Boolean {
         return oldItem == newItem
     }
 
     override fun areItemsTheSame(
-        oldItem: ApiProductCategory,
-        newItem: ApiProductCategory
+        oldItem: Product,
+        newItem: Product
     ): Boolean {
-        return oldItem.idMeal == newItem.idMeal
+        return oldItem.id == newItem.id
     }
 }

@@ -7,7 +7,7 @@ data class Product(
     val nameProduct: String,
     val productCategory: String,
     val productPrice: Int,
-    val productInCart: Int = 0,
+    var productInCart: Int = 0,
     val image: String,
 ){
     fun getFormattedPrice(): String = NumberFormat.getCurrencyInstance().format(productPrice)

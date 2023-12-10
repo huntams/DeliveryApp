@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -27,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.model.OrderWithProductQuantity
 import com.example.profiles.DeliveryAppTheme
 import com.example.profiles.R
 
@@ -63,7 +63,7 @@ fun ProfileItem(
         ) {
             Image(
                 painter = painterResource(image),
-                contentDescription = "No promotion yet",
+                contentDescription = stringResource(R.string.no_promotion_yet),
                 modifier = modifier
             )
             Text(text = info)
@@ -72,9 +72,9 @@ fun ProfileItem(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
+    orders: List<OrderWithProductQuantity>,
     onHistoryClicked: () -> Unit,
     onAddressesClicked: () -> Unit,
     modifier: Modifier = Modifier
@@ -90,16 +90,16 @@ fun ProfileScreen(
                 .background(MaterialTheme.colorScheme.background)
         ) {
             ProfileItem(
-                header = "My promotion",
-                info = "No promotion yet",
+                header = stringResource(R.string.my_promotion),
+                info = stringResource(R.string.no_promotion_yet),
                 image = R.drawable.ic_promo_empty_96,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .fillMaxWidth()
             )
             ProfileItem(
-                header = "Missions",
-                info = "No missions yet",
+                header = stringResource(R.string.missions),
+                info = stringResource(R.string.no_missions_yet),
                 image = R.drawable.ic_star_96,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -108,14 +108,14 @@ fun ProfileScreen(
             Row(modifier = Modifier.fillMaxWidth()) {
                 InfoItem(
                     header = stringResource(R.string.history_of_orders),
-                    info = " orders",
+                    info = stringResource(R.string.total_orders, orders.size),
                     modifier = Modifier
                         .padding(8.dp)
                         .clickable { onHistoryClicked() }
                 )
                 InfoItem(
                     header = stringResource(R.string.delivery_addresses),
-                    info = " address",
+                    info = stringResource(R.string.total_address, 0),
                     modifier = Modifier
                         .padding(8.dp)
                         .clickable { onAddressesClicked() }
@@ -137,6 +137,7 @@ private fun ProfilePreview() {
                 .fillMaxSize(), color = Color.Black
         ) {
             ProfileScreen(
+                listOf(),
                 {}, {}
             )
         }

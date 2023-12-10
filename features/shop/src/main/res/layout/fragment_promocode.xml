@@ -20,7 +20,7 @@
             style="@style/ThemeOverlay.Material3.TextInputEditText.FilledBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="username"
+            android:autofillHints="Promo-code"
             android:hint="@string/input_promo_code" />
     </com.google.android.material.textfield.TextInputLayout>
 

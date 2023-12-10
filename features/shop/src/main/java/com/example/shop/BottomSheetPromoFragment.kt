@@ -20,13 +20,13 @@ class BottomSheetPromoFragment : BottomSheetDialogFragment(R.layout.fragment_pro
         with(binding) {
             buttonAccept.setOnClickListener {
                 if (textInputEditTextPromo.text?.isEmpty() == true) {
-                    textInputLayoutPromo.error = "Input promo-code"
+                    textInputLayoutPromo.error = getString(R.string.input_promo)
                 } else {
                     val builder = MaterialAlertDialogBuilder(requireContext())
-                    builder.setMessage("YOU WIN!!!")
-                    builder.setTitle("You received ${args.randomCoins} coins!!")
+                    builder.setMessage(getString(R.string.you_win))
+                    builder.setTitle(getString(R.string.you_received_coins, args.randomCoins))
                     builder.setPositiveButton(
-                        "Accept"
+                        getString(R.string.accept)
                     ) { _, _ ->
                     }
                     builder.create().show()

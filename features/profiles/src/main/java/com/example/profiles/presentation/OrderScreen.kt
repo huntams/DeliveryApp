@@ -32,15 +32,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.common.getFormattedPrice
 import com.example.model.Order
 import com.example.model.OrderWithProductQuantity
 import com.example.model.Product
 import com.example.model.ProductQuantity
 import com.example.model.ProductQuantityAndProduct
 import com.example.profiles.DeliveryAppTheme
+import com.example.profiles.R
 
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -68,7 +71,7 @@ fun Orders(
             orders.forEach { order ->
                 item {
                     Text(
-                        text = "Order №${order.order.orderId}",
+                        text = stringResource(R.string.order, order.order.orderId),
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(top = 8.dp, start = 8.dp)
                     )
@@ -77,12 +80,12 @@ fun Orders(
                         it.productQuantity.quantity
                     }
                     Text(
-                        text = "$items product for ${order.order.totalPrice} р.",
+                        text = stringResource(R.string.product_for, items, getFormattedPrice(order.order.totalPrice?:0)),
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(top = 8.dp, start = 8.dp)
                     )
                     Text(
-                        text = "Recieved deliverycoins",
+                        text = stringResource(R.string.received_deliverycoins),
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(top = 8.dp, start = 8.dp)
                     )
@@ -166,7 +169,10 @@ fun ProductListItem(productQuantity: ProductQuantityAndProduct, modifier: Modifi
                 Spacer(Modifier.weight(1f))
                 Text(
                     modifier = Modifier.padding(8.dp),
-                    text = "Item ordered: ${productQuantity.productQuantity.quantity} ",
+                    text = stringResource(
+                        R.string.products_ordered,
+                        productQuantity.productQuantity.quantity
+                    ),
                     style = MaterialTheme.typography.titleLarge
                 )
             }

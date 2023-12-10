@@ -60,8 +60,7 @@ class OrderService : Service(), CoroutineScope by MainScope() {
                         @SuppressLint("MissingPermission")
                         override fun onFinish() {
                             val build = NotificationCompat.Builder(context, CHANNEL_ID)
-                                .setContentTitle(getString(R.string.channel_name))
-                                .setContentText("Your products was delivered!")
+                                .setContentTitle(getString(R.string.products_delivered))
                                 .setUsesChronometer(false)
                                 .setSmallIcon(com.example.data.R.drawable.ic_delivery_24)
                             notificationManager.notify(NOTIFICATION_ID + 1, build.build())

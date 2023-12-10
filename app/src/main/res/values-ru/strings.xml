@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Доставка</string>
+    <string name="profile">Профиль</string>
+    <string name="shop">Корзина</string>
+    <string name="menu">Меню</string>
+    <string name="qrcode">QRCode</string>
+    <string name="location_button">Москва</string>
+    <string name="internet_connection">Нет подключения к интернету</string>
+</resources>
