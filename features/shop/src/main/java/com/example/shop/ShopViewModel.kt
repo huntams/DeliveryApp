@@ -52,11 +52,11 @@ class ShopViewModel @Inject constructor(
         }
     }
 
-    fun getTimeDelivery(): List<TimeData> {
-        val times = mutableListOf<TimeData>()
+    fun getTimeDelivery(): List<Long> {
+        val times = mutableListOf<Long>()
         var startTime = Date().time + 30_000
         for (i in 1..(Random.nextInt(5, 15))) {
-            times.add(TimeData(i, startTime))
+            times.add(startTime)
             startTime += (Random.nextInt(1, 5) * 60_000)
         }
         return times

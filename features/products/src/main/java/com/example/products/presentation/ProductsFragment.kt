@@ -3,6 +3,8 @@ package com.example.products.presentation
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -13,6 +15,7 @@ import com.example.model.Product
 import com.example.network.model.ApiCategories
 import com.example.products.R
 import com.example.products.databinding.FragmentProductsBinding
+import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
@@ -26,8 +29,6 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
     private val binding by viewBinding(FragmentProductsBinding::bind)
     private val viewModel by viewModels<ProductsViewModel>()
 
-    @Inject
-    lateinit var categoriesAdapter: CategoriesAdapter
 
     @Inject
     lateinit var productsAdapter: ProductsAdapter
@@ -54,11 +55,13 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
         viewModel.categoriesLiveData.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is ResultLoader.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    categoriesAdapter.apply {
-                        submitList(result.value.meals)
+                    with(binding) {
+                        progressBar.visibility = View.GONE
+                        result.value.meals.forEach {
+                            chipGroup.addView(createTagChip(it.strCategory))
+                        }
+                        chipGroup.check(binding.chipGroup.children.toList()[0].id)
                     }
-                    binding.recyclerViewCategories.adapter = categoriesAdapter
                     resultCategories = result.value
                     viewModel.getProducts()
                     viewModel.productsLiveData.observe(viewLifecycleOwner) {
@@ -68,9 +71,8 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                 }
 
                 is ResultLoader.Loading -> {
-                    with(binding) {
-                        progressBar.visibility = View.VISIBLE
-                    }
+
+                    binding.progressBar.visibility = View.VISIBLE
                 }
 
                 is ResultLoader.Failure -> {
@@ -141,16 +143,30 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
             )
         }
 
-        categoriesAdapter.setCallback {
-            when (val meals = viewModel.mealsLiveData.value) {
-                is ResultLoader.Success -> {
-                    category = it.strCategory
-                    productsAdapter.submitList(meals.value[category])
-                }
+        binding.chipGroup.setOnCheckedStateChangeListener { group, checkedId ->
+            if (checkedId.isNotEmpty()) {
+                val titleOrNull = binding.chipGroup.findViewById<Chip>(checkedId[0])?.text
+                Toast.makeText(requireContext(), titleOrNull ?: category, Toast.LENGTH_LONG).show()
+                when (val meals = viewModel.mealsLiveData.value) {
+                    is ResultLoader.Success -> {
+                        category = (titleOrNull).toString()
+                        productsAdapter.submitList(meals.value[category])
+                    }
 
-                else -> {}
+                    else -> {}
+                }
             }
         }
     }
 
+    private fun createTagChip(chipName: String): Chip {
+        return (layoutInflater.inflate(
+            com.example.data.R.layout.item_chip_categories,
+            binding.chipGroup,
+            false
+        ) as Chip).apply {
+            text = chipName
+        }
+
+    }
 }

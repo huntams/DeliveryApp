@@ -2,15 +2,18 @@ package com.example.shop
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import androidx.core.view.children
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.common.PrefsStorage
+import com.example.common.convertDateToLong
+import com.example.common.convertLongToTime
 import com.example.common.getFormattedPrice
 import com.example.shop.databinding.FragmentOrderBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -22,21 +25,17 @@ class OrderSheetFragment : BottomSheetDialogFragment(R.layout.fragment_order) {
     @Inject
     lateinit var prefsStorage: PrefsStorage
 
-    @Inject
-    lateinit var timeDeliveryAdapter: TimeDeliveryAdapter
-
     private val viewModel by viewModels<ShopViewModel>()
     private val args: OrderSheetFragmentArgs by navArgs()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding) {
 
             val list = viewModel.getTimeDelivery()
-            var orderTime = list[0].time
-            timeDeliveryAdapter.submitList(list)
-            binding.recyclerViewTimeDelivery.adapter = timeDeliveryAdapter
-            timeDeliveryAdapter.setButtonCallback {
-                Toast.makeText(requireContext(),it.time.toString(),Toast.LENGTH_LONG).show()
+            var orderTime = list[0].convertLongToTime().convertDateToLong()
+            list.forEach {
+                chipGroup.addView(createTagChip(it.convertLongToTime()))
             }
+            chipGroup.check(chipGroup.children.toList()[0].id)
             viewModel.getOrderById(args.orderId)
             viewModel.orderLiveData.observe(viewLifecycleOwner) { order ->
                 val total = getFormattedPrice(viewModel.totalPrice(order) + args.deliveryPrice)
@@ -74,9 +73,10 @@ class OrderSheetFragment : BottomSheetDialogFragment(R.layout.fragment_order) {
                         findNavController().navigate(OrderSheetFragmentDirections.actionOrderSheetFragmentToShopFragment())
                     }
                 }
-                timeDeliveryAdapter.setButtonCallback {
-                    orderTime = it.time
-                }
+            }
+            chipGroup.setOnCheckedStateChangeListener { group, checkedId ->
+                val titleOrNull = chipGroup.findViewById<Chip>(checkedId[0])?.text.toString()
+                orderTime = titleOrNull.convertDateToLong()
             }
         }
         super.onViewCreated(view, savedInstanceState)
@@ -85,5 +85,16 @@ class OrderSheetFragment : BottomSheetDialogFragment(R.layout.fragment_order) {
     private fun setOneLineData(v: OneLineTextView, description: String, data: String) {
         v.setDescription(description)
         v.setData(data)
+    }
+
+    private fun createTagChip(chipName: String): Chip {
+        return (layoutInflater.inflate(
+            com.example.data.R.layout.item_chip_categories,
+            binding.chipGroup,
+            false
+        ) as Chip).apply {
+            text = chipName
+        }
+
     }
 }

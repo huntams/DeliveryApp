@@ -10,6 +10,8 @@ import android.os.IBinder
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.common.convertDateToLong
+import com.example.common.convertLongToTime
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -24,10 +26,11 @@ class OrderService : Service(), CoroutineScope by MainScope() {
         private const val CHANNEL_ID = "Create Notification"
         private var timeMilliseconds: Long = 0
 
-        private const val NOTIFICATION_ID = 123
+        private var NOTIFICATION_ID = 123
 
         private const val ACTION_ORDER_DELIVERY = "ACTION_ORDER_DELIVERY"
         fun newIntent(time: Long, context: Context): Intent {
+
             timeMilliseconds = time
             return Intent(context, OrderService::class.java).apply {
                 action = ACTION_ORDER_DELIVERY
@@ -40,18 +43,19 @@ class OrderService : Service(), CoroutineScope by MainScope() {
         intent?.let {
             val context = this
             val notificationManager = NotificationManagerCompat.from(this)
-            val expireTimeInMiliSeconds = timeMilliseconds - Date().time
+            val expireTimeInMilliseconds = timeMilliseconds - Date().time.convertLongToTime().convertDateToLong()
+            timeMilliseconds = expireTimeInMilliseconds + Date().time
             startForeground(NOTIFICATION_ID, createNotification(timeMilliseconds))
             val builder = createCompat(timeMilliseconds)
 
             if (it.action == ACTION_ORDER_DELIVERY) {
                 launch {
-                    val timer = object : CountDownTimer(expireTimeInMiliSeconds, 1000) {
+                    val timer = object : CountDownTimer(expireTimeInMilliseconds, 1000) {
                         @SuppressLint("MissingPermission")
                         override fun onTick(millisUntilFinished: Long) {
                             builder.setProgress(
                                 100,
-                                100 - ((millisUntilFinished / (expireTimeInMiliSeconds / 100)).toInt()),
+                                100 - ((millisUntilFinished / (expireTimeInMilliseconds / 100)).toInt()),
                                 false
                             )
                             notificationManager.notify(NOTIFICATION_ID, builder.build())

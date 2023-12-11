@@ -27,4 +27,5 @@
     <string name="you_win">YOU WIN!!!</string>
     <string name="you_received_coins">You received %1$d coins!!</string>
     <string name="products_delivered">Your products was delivered!</string>
+    <string name="cash">Cash</string>
 </resources>
