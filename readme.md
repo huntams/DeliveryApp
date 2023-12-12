@@ -1,7 +1,7 @@
 # DeliveryApp
 ## __Technologies__
 
-* [Used API](https://pokeapi.co/docs/v2)
+* [Used API](https://www.themealdb.com/)
 * [Kotlin](https://kotlinlang.org/)
 * [Retrofit](https://square.github.io/retrofit/)
 * [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
@@ -26,21 +26,21 @@
 
 ## __Screenshots__
 <p>
-  <img src="screenshots/splash_screen.png" alt="drawing" width="300"/>
-  <img src="screenshots/loading_screen.png" alt="drawing" width="300"/>
-  <img src="screenshots/error_screen.png" alt="drawing" width="300"/>
-  <img src="screenshots/Menu_screen.png" alt="drawing" width="300"/>
-  <img src="screenshots/collapsed_toolbar.png" alt="drawing" width="300"/>
-  <img src="screenshots/profile_screen.png" alt="drawing" width="300"/>
-  <img src="screenshots/history_screen.png" alt="drawing" width="300"/>
-  <img src="screenshots/shop_screen.png" alt="drawing" width="300"/>
-  <img src="screenshots/shop_screen_bottom.png" alt="drawing" width="300"/>
-  <img src="screenshots/promo_screen.png" alt="drawing" width="300"/>
-  <img src="screenshots/dialog_deliverycoin.png" alt="drawing" width="300"/>
-  <img src="screenshots/request_camera.png" alt="drawing" width="300"/>
-  <img src="screenshots/order_screen.png" alt="drawing" width="300"/>
-  <img src="screenshots/notification_screen.png" alt="drawing" width="300"/>
-  <img src="screenshots/notification_delivered.png" alt="drawing" width="300"/>
+  <img src="screenshots/splash_screen.png" alt="drawing" width="200"/>
+  <img src="screenshots/loading_screen.png" alt="drawing" width="200"/>
+  <img src="screenshots/error_screen.png" alt="drawing" width="200"/>
+  <img src="screenshots/Menu_screen.png" alt="drawing" width="200"/>
+  <img src="screenshots/collapsed_toolbar.png" alt="drawing" width="200"/>
+  <img src="screenshots/profile_screen.png" alt="drawing" width="200"/>
+  <img src="screenshots/history_screen.png" alt="drawing" width="200"/>
+  <img src="screenshots/shop_screen.png" alt="drawing" width="200"/>
+  <img src="screenshots/shop_screen_bottom.png" alt="drawing" width="200"/>
+  <img src="screenshots/promo_screen.png" alt="drawing" width="200"/>
+  <img src="screenshots/dialog_deliverycoin.png" alt="drawing" width="200"/>
+  <img src="screenshots/request_camera.png" alt="drawing" width="200"/>
+  <img src="screenshots/order_screen.png" alt="drawing" width="200"/>
+  <img src="screenshots/notification_screen.png" alt="drawing" width="200"/>
+  <img src="screenshots/notification_delivered.png" alt="drawing" width="200"/>
 </p>
 <p>
   <img src="screenshots/dark_menu_screen.png" alt="drawing" width="300"/>
