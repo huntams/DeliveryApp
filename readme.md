@@ -1,6 +1,3 @@
-<h3 align="left">Languages and Tools:</h3>
-<p > <a href="https://developer.android.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/android/android-original-wordmark.svg" alt="android" width="40" height="40"/> </a> <a href="https://www.figma.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/figma/figma-icon.svg" alt="figma" width="40" height="40"/> </a> <a href="https://firebase.google.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg" alt="firebase" width="40" height="40"/> </a> <a href="https://www.sqlite.org/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/sqlite/sqlite-icon.svg" alt="sqlite" width="40" height="40"/> </a> </p>
-
 # DeliveryApp
 ## __Technologies__
 
@@ -10,6 +7,9 @@
 * [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
 * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
 * [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines)
+* [Themes](https://developer.android.com/develop/ui/views/theming/themes)
+* [Notification](https://developer.android.com/develop/ui/views/notifications/build-notification)
+* [MultiLanguage](https://developer.android.com/training/basics/supporting-devices/languages)
 * [ViewBindingPropertyDelegate](https://github.com/androidbroadcast/ViewBindingPropertyDelegate)
 * [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
 * [SharedPreferences](https://developer.android.com/training/data-storage/shared-preferences)
@@ -25,18 +25,26 @@
 
 
 ## __Screenshots__
-![](screenshots/splash_screen.png)
-![collapsed_toolbar.png](screenshots/collapsed_toolbar.png)
-![dialog_deliverycoin.png](screenshots/dialog_deliverycoin.png)
-![error_screen.png](screenshots/error_screen.png)
-![history_screen.png](screenshots/history_screen.png)
-![loading_screen.png](screenshots/loading_screen.png)
-![Menu_screen.png](screenshots/Menu_screen.png)
-![notification_delivered.png](screenshots/notification_delivered.png)
-![notification_screen.png](screenshots/notification_screen.png)
-![order_screen.png](screenshots/order_screen.png)
-![profile_screen.png](screenshots/profile_screen.png)
-![promo_screen.png](screenshots/promo_screen.png)
-![request_camera.png](screenshots/request_camera.png)
-![shop_screen.png](screenshots/shop_screen.png)
-![shop_screen_bottom.png](screenshots/shop_screen_bottom.png)
+<p>
+  <img src="screenshots/splash_screen.png" alt="drawing" width="300"/>
+  <img src="screenshots/loading_screen.png" alt="drawing" width="300"/>
+  <img src="screenshots/error_screen.png" alt="drawing" width="300"/>
+  <img src="screenshots/Menu_screen.png" alt="drawing" width="300"/>
+  <img src="screenshots/collapsed_toolbar.png" alt="drawing" width="300"/>
+  <img src="screenshots/profile_screen.png" alt="drawing" width="300"/>
+  <img src="screenshots/history_screen.png" alt="drawing" width="300"/>
+  <img src="screenshots/shop_screen.png" alt="drawing" width="300"/>
+  <img src="screenshots/shop_screen_bottom.png" alt="drawing" width="300"/>
+  <img src="screenshots/promo_screen.png" alt="drawing" width="300"/>
+  <img src="screenshots/dialog_deliverycoin.png" alt="drawing" width="300"/>
+  <img src="screenshots/request_camera.png" alt="drawing" width="300"/>
+  <img src="screenshots/order_screen.png" alt="drawing" width="300"/>
+  <img src="screenshots/notification_screen.png" alt="drawing" width="300"/>
+  <img src="screenshots/notification_delivered.png" alt="drawing" width="300"/>
+</p>
+<p>
+  <img src="screenshots/dark_menu_screen.png" alt="drawing" width="300"/>
+  <img src="screenshots/dark_profile_screen.png" alt="drawing" width="300"/>
+  <img src="screenshots/dark_history_screen.png" alt="drawing" width="300"/>
+  <img src="screenshots/dark_shop_screen.png" alt="drawing" width="300"/>
+</p>
