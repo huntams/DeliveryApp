@@ -84,7 +84,7 @@ class ShopViewModel @Inject constructor(
     fun getProducts() {
         viewModelScope.launch {
             getProductsUseCase().collect {
-                val data = it.filterIndexed { index, _ -> index % 10 == 0 }
+                val data = it.filterIndexed { index, _ -> index % Random.nextInt(5,10) == 0 }
                 _productsLiveData.postValue(data)
             }
         }

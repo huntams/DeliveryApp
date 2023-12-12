@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.request.ErrorResult
+import coil.request.ImageRequest
 import com.example.model.Product
 import com.example.products.R
 import com.example.products.databinding.ItemProductBinding
@@ -16,8 +18,8 @@ class ProductsAdapter @Inject constructor() :
         diffUtilCallback
     ) {
 
-    private var onClick: (Product) -> Unit = {}
-    fun setCallback(callback: (Product) -> Unit) {
+    private var onClick: (ErrorResult) -> Unit = {}
+    fun setCallback(callback: (ErrorResult) -> Unit) {
         this.onClick = callback
     }
 
@@ -44,15 +46,17 @@ class ProductsAdapter @Inject constructor() :
             with(binding) {
                 buttonPrice.text = item.getFormattedPrice()
                 imageViewProduct.load(item.image) {
-                    error(R.drawable.ic_placeholder_135)
-                    crossfade(true)
-                    placeholder(R.drawable.ic_placeholder_135)
+                    listener(onSuccess = { _, _ ->
+                        placeholder(R.drawable.ic_placeholder_135)
+                        // do something
+                    }, onError = { request: ImageRequest, error ->
+                        onClick.invoke(error)
+                    })
+
+                    error(com.example.data.R.drawable.ic_menu_24)
                 }
                 textViewNameProduct.text = item.nameProduct
                 textViewInfoProduct.text = item.productCategory
-                root.setOnClickListener {
-                    onClick.invoke(item)
-                }
                 buttonPrice.setOnClickListener {
                     item.productInCart += 1
                     buttonClick(item)

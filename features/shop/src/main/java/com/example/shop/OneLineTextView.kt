@@ -23,11 +23,10 @@ class OneLineTextView @JvmOverloads constructor(
             attributeSet,
             R.styleable.OneLineTextView, defAttrsSet, 0
         ) {
-            val description =
-                getString(R.styleable.OneLineTextView_description)?.let { description ->
-                    binding.textViewDescription.text = description
-                }
-            val data = getString(R.styleable.OneLineTextView_data)?.let { data ->
+            getString(R.styleable.OneLineTextView_description)?.let { description ->
+                binding.textViewDescription.text = description
+            }
+            getString(R.styleable.OneLineTextView_data)?.let { data ->
                 binding.textViewData.text = data
             }
         }

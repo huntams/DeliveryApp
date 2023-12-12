@@ -6,4 +6,5 @@
     <string name="qrcode">QRCode</string>
     <string name="location_button">Moscow</string>
     <string name="internet_connection">No internet connection</string>
+    <string name="reload">Reload</string>
 </resources>

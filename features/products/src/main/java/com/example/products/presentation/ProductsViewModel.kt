@@ -45,10 +45,6 @@ class ProductsViewModel @Inject constructor(
     private val _productsLiveData = MutableLiveData<List<Product>>()
     val productsLiveData: LiveData<List<Product>> = _productsLiveData
 
-    init {
-        getCategories()
-
-    }
 
     fun getProducts() {
         viewModelScope.launch {
@@ -126,7 +122,7 @@ class ProductsViewModel @Inject constructor(
                 productsEntity.add(
                     ProductEntity(
                         productCategory = category.key,
-                        image = product.productCategory,
+                        image = product.image,
                         productPrice = product.productPrice,
                         productInCart = product.productInCart,
                         nameProduct = product.nameProduct,

@@ -74,9 +74,11 @@ class OrderSheetFragment : BottomSheetDialogFragment(R.layout.fragment_order) {
                     }
                 }
             }
-            chipGroup.setOnCheckedStateChangeListener { group, checkedId ->
-                val titleOrNull = chipGroup.findViewById<Chip>(checkedId[0])?.text.toString()
-                orderTime = titleOrNull.convertDateToLong()
+            chipGroup.setOnCheckedStateChangeListener { _, checkedId ->
+                if (checkedId.isNotEmpty()) {
+                    val titleOrNull = chipGroup.findViewById<Chip>(checkedId[0])?.text.toString()
+                    orderTime = titleOrNull.convertDateToLong()
+                }
             }
         }
         super.onViewCreated(view, savedInstanceState)

@@ -35,9 +35,9 @@ fun Context.isPermissionGranted(permission: String): Boolean {
 inline fun Context.cameraPermissionRequest(crossinline positive: () -> Unit) {
     AlertDialog.Builder(this).setTitle("Camera permission required")
         .setMessage("Without accessing the camera it is not possible to SCAN QR Codes...")
-        .setPositiveButton("Allow camera") { dialog, which ->
+        .setPositiveButton("Allow camera") { _, _ ->
             positive.invoke()
-        }.setNegativeButton(" Cancel") { dialog, which -> }.show()
+        }.setNegativeButton(" Cancel") { _, _ -> }.show()
 }
 
 fun getFormattedPrice(price: Int): String = NumberFormat.getCurrencyInstance().format(price)

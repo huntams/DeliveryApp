@@ -45,6 +45,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
     private var category: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.getCategories()
         super.onViewCreated(view, savedInstanceState)
         var listProducts = listOf<Product>()
         var resultCategories: Categories<ApiCategories> = Categories(listOf())
@@ -77,15 +78,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
 
                 is ResultLoader.Failure -> {
                     Log.e("error", result.throwable.message.toString())
-                    val mySnackbar = Snackbar.make(
-                        binding.root,
-                        getString(R.string.internet_connection),
-                        Snackbar.LENGTH_INDEFINITE
-                    )
-                    mySnackbar.setAction("Reload") {
-                        viewModel.getCategories()
-                    }
-                    mySnackbar.show()
+                    toastError { viewModel.getCategories() }
                 }
 
                 else -> {}
@@ -108,15 +101,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
 
                 is ResultLoader.Failure -> {
                     Log.e("error", result.throwable.message.toString())
-                    val mySnackbar = Snackbar.make(
-                        binding.root,
-                        getString(R.string.internet_connection),
-                        Snackbar.LENGTH_INDEFINITE
-                    )
-                    mySnackbar.setAction("Reload") {
-                        viewModel.getProductsByCategory(resultCategories, listProducts)
-                    }
-                    mySnackbar.show()
+                    toastError { viewModel.getProductsByCategory(resultCategories, listProducts) }
                 }
 
                 is ResultLoader.Loading -> {
@@ -130,20 +115,26 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
             }
         }
 
+        productsAdapter.setCallback {
+            Log.e("error", it.throwable.message.toString())
+            toastError {
+                viewModel.getCategories()
+            }
+        }
         productsAdapter.setButtonCallback { apiproduct ->
 
             viewModel.addProductQuantity(
-                quantity = apiproduct.productInCart,
-                orderId = prefs.order,
-                productId = apiproduct.id
+                    quantity = apiproduct.productInCart,
+                    orderId = prefs.order,
+                    productId = apiproduct.id
             )
             viewModel.addProductCrossRef(
-                productId = apiproduct.id,
-                productQuantityId = apiproduct.id,
+                    productId = apiproduct.id,
+                    productQuantityId = apiproduct.id,
             )
         }
 
-        binding.chipGroup.setOnCheckedStateChangeListener { group, checkedId ->
+        binding.chipGroup.setOnCheckedStateChangeListener { _, checkedId ->
             if (checkedId.isNotEmpty()) {
                 val titleOrNull = binding.chipGroup.findViewById<Chip>(checkedId[0])?.text
                 Toast.makeText(requireContext(), titleOrNull ?: category, Toast.LENGTH_LONG).show()
@@ -158,12 +149,23 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
             }
         }
     }
+    private fun toastError(block:  () -> Unit){
+        val mySnackbar = Snackbar.make(
+            binding.root,
+            getString(R.string.internet_connection),
+            Snackbar.LENGTH_INDEFINITE
+        )
+        mySnackbar.setAction(getString(R.string.reload)) {
+            block()
+        }
+        mySnackbar.show()
+    }
 
     private fun createTagChip(chipName: String): Chip {
         return (layoutInflater.inflate(
-            com.example.data.R.layout.item_chip_categories,
-            binding.chipGroup,
-            false
+                com.example.data.R.layout.item_chip_categories,
+                binding.chipGroup,
+                false
         ) as Chip).apply {
             text = chipName
         }

@@ -2,10 +2,10 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs'
-    id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
     id 'kotlin-parcelize'
     id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'kotlin-kapt'
 }
 android {
     namespace 'com.example.shop'
