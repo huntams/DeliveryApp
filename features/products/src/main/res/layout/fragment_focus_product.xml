@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/motionLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/fragment_focus_product_scene"
+    tools:ignore="contentDescription">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_image_container"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageViewProduct"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/draw_banner_300"
+        app:layout_constraintBottom_toBottomOf="@id/top_image_container"
+        app:layout_constraintEnd_toEndOf="@id/top_image_container"
+        app:layout_constraintStart_toStartOf="@id/top_image_container"
+        app:layout_constraintTop_toTopOf="@id/top_image_container" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/imageViewAdd"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:alpha="0"
+        app:icon="@drawable/ic_add_24"
+        app:layout_constraintBottom_toBottomOf="@id/top_image_container"
+        app:layout_constraintEnd_toStartOf="@id/image_clear"
+        app:layout_constraintTop_toTopOf="@id/top_image_container" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/image_clear"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/top_image_container"
+        app:layout_constraintEnd_toEndOf="@id/top_image_container"
+        app:layout_constraintTop_toTopOf="@id/top_image_container"
+        app:icon="@drawable/ic_close_24"/>
+
+    <TextView
+        android:id="@+id/textViewNameProduct"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        style="@style/TextAppearance.Material3.TitleSmall"
+        android:text="nametextetsxetex"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_image_container" />
+
+    <TextView
+        android:id="@+id/textViewInfoProduct"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="infottestsetsetse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewNameProduct" />
+
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

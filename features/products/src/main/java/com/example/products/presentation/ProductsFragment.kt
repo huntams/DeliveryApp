@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.common.PrefsStorage
 import com.example.common.ResultLoader
@@ -115,6 +116,9 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
             }
         }
 
+        productsAdapter.setItemCallback {
+            findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToProductFocusFragment(it.id))
+        }
         productsAdapter.setCallback {
             Log.e("error", it.throwable.message.toString())
             toastError {
@@ -133,7 +137,6 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                     productQuantityId = apiproduct.id,
             )
         }
-
         binding.chipGroup.setOnCheckedStateChangeListener { _, checkedId ->
             if (checkedId.isNotEmpty()) {
                 val titleOrNull = binding.chipGroup.findViewById<Chip>(checkedId[0])?.text

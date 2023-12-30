@@ -18,11 +18,16 @@ class ProductsAdapter @Inject constructor() :
         diffUtilCallback
     ) {
 
+
+    private var onItemClick: (Product) -> Unit = {}
+
+    fun setItemCallback(callback: (Product) -> Unit) {
+        this.onItemClick = callback
+    }
     private var onClick: (ErrorResult) -> Unit = {}
     fun setCallback(callback: (ErrorResult) -> Unit) {
         this.onClick = callback
     }
-
     private var buttonClick: (Product) -> Unit = {}
     fun setButtonCallback(callback: (Product) -> Unit) {
         this.buttonClick = callback
@@ -48,8 +53,7 @@ class ProductsAdapter @Inject constructor() :
                 imageViewProduct.load(item.image) {
                     listener(onSuccess = { _, _ ->
                         placeholder(R.drawable.ic_placeholder_135)
-                        // do something
-                    }, onError = { request: ImageRequest, error ->
+                    }, onError = { _: ImageRequest, error ->
                         onClick.invoke(error)
                     })
 
@@ -57,14 +61,17 @@ class ProductsAdapter @Inject constructor() :
                 }
                 textViewNameProduct.text = item.nameProduct
                 textViewInfoProduct.text = item.productCategory
+                root.setOnClickListener{
+                    onItemClick(item)
+                }
                 buttonPrice.setOnClickListener {
                     item.productInCart += 1
                     buttonClick(item)
                 }
-
             }
 
         }
+
     }
 }
 

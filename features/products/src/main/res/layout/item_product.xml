@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="16dp">
+    android:paddingTop="16dp"
+    app:layoutDescription="@xml/fragment_focus_product_scene">
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/dividerTop"
@@ -57,9 +58,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        tools:text="@tools:sample/lorem"
         android:layout_marginEnd="16dp"
         app:cornerRadius="6dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewInfoProduct" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewInfoProduct"
+        tools:text="@tools:sample/lorem" />
 </androidx.constraintlayout.widget.ConstraintLayout>
