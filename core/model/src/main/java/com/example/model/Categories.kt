@@ -1,5 +1,5 @@
 package com.example.model
 
-data class Categories<T>(
-    val meals: List<T>,
+data class Categories(
+    val strCategory : String,
 )

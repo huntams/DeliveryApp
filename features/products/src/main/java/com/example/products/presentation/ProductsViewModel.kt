@@ -14,8 +14,8 @@ import com.example.domain.db.AddProductQuantityUseCase
 import com.example.domain.db.AddProductsDBUseCase
 import com.example.domain.db.GetProductsUseCase
 import com.example.model.Categories
+import com.example.model.Meals
 import com.example.model.Product
-import com.example.network.model.ApiCategories
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,8 +30,9 @@ class ProductsViewModel @Inject constructor(
     private val getProductsByCategoryUseCase: GetProductsByCategoryUseCase,
     private val getProductsUseCase: GetProductsUseCase,
 ) : BaseViewModel() {
-    private val _categoriesLiveData = MutableLiveData<ResultLoader<Categories<ApiCategories>>>()
-    val categoriesLiveData: LiveData<ResultLoader<Categories<ApiCategories>>> = _categoriesLiveData
+    private val _categoriesLiveData = MutableLiveData<ResultLoader<Meals<Categories>>>()
+    val categoriesLiveData: LiveData<ResultLoader<Meals<Categories>>> = _categoriesLiveData
+
 
 
     private val _mealsLiveData =
@@ -45,6 +46,10 @@ class ProductsViewModel @Inject constructor(
     private val _productsLiveData = MutableLiveData<List<Product>>()
     val productsLiveData: LiveData<List<Product>> = _productsLiveData
 
+
+    init{
+        getCategories()
+    }
 
     fun getProducts() {
         viewModelScope.launch {
@@ -74,7 +79,7 @@ class ProductsViewModel @Inject constructor(
 
 
     fun getProductsByCategory(
-        categories: Categories<ApiCategories>,
+        categories: Meals<Categories>,
         list: List<Product>
     ) {
 

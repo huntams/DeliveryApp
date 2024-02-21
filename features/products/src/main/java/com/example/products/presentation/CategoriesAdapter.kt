@@ -5,17 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.network.model.ApiCategories
+import com.example.model.Categories
 import com.example.products.databinding.ItemCategoriesBinding
 import javax.inject.Inject
 
 class CategoriesAdapter @Inject constructor() :
-    ListAdapter<ApiCategories, CategoriesAdapter.DataViewHolder>(
+    ListAdapter<Categories, CategoriesAdapter.DataViewHolder>(
         diffUtilCallback
     ) {
 
-    private var onClick: (ApiCategories) -> Unit = {}
-    fun setCallback(callback: (ApiCategories) -> Unit) {
+    private var onClick: (Categories) -> Unit = {}
+    fun setCallback(callback: (Categories) -> Unit) {
         this.onClick = callback
     }
 
@@ -32,7 +32,7 @@ class CategoriesAdapter @Inject constructor() :
     inner class DataViewHolder(
         private val binding: ItemCategoriesBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ApiCategories) {
+        fun bind(item: Categories) {
 
             with(binding) {
                 buttonCategory.text = item.strCategory
@@ -46,13 +46,13 @@ class CategoriesAdapter @Inject constructor() :
     }
 }
 
-private val diffUtilCallback = object : DiffUtil.ItemCallback<ApiCategories>() {
+private val diffUtilCallback = object : DiffUtil.ItemCallback<Categories>() {
 
-    override fun areContentsTheSame(oldItem: ApiCategories, newItem: ApiCategories): Boolean {
+    override fun areContentsTheSame(oldItem: Categories, newItem: Categories): Boolean {
         return oldItem == newItem
     }
 
-    override fun areItemsTheSame(oldItem: ApiCategories, newItem: ApiCategories): Boolean {
+    override fun areItemsTheSame(oldItem: Categories, newItem: Categories): Boolean {
         return oldItem.strCategory == newItem.strCategory
     }
 }

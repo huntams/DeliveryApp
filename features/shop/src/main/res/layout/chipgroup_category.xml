@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="none">
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroupFilter"
+        style="@style/Widget.Material3.ChipGroup"
+        android:layout_width="match_parent"
+        app:singleLine="true"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipBusiness"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="business" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipEntertainment"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="entertainment" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipGeneral"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="general" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipHealth"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="health" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipScience"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="science" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSports"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sports" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipTechnology"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="technology" />
+    </com.google.android.material.chip.ChipGroup>
+</FrameLayout>

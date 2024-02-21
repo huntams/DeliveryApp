@@ -48,8 +48,7 @@ class ProductsAdapter @Inject constructor() :
                 imageViewProduct.load(item.image) {
                     listener(onSuccess = { _, _ ->
                         placeholder(R.drawable.ic_placeholder_135)
-                        // do something
-                    }, onError = { request: ImageRequest, error ->
+                    }, onError = { _: ImageRequest, error ->
                         onClick.invoke(error)
                     })
 

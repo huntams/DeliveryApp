@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.children
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -15,6 +16,8 @@ import com.example.shop.databinding.FragmentOrderBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -54,6 +57,31 @@ class OrderSheetFragment : BottomSheetDialogFragment(R.layout.fragment_order) {
                     oneLineViewTotal,
                     getString(R.string.order_price), total
                 )
+                binding.adoptButton.setOnClickListener{
+                    lifecycleScope.launch {
+                        binding.adoptButton.startLoading()
+                        delay(3000)
+                        binding.adoptButton.done()
+                        viewModel.addOrderById(
+                            orderId = order.order.orderId,
+                            totalPrice = viewModel.totalPrice(order) + args.deliveryPrice,
+                            coins = args.deliveryCoins
+                        )
+                        viewModel.addOrder()
+                        viewModel.idLiveData.observe(viewLifecycleOwner) {
+                            prefsStorage.order = it
+
+                            activity?.startService(
+                                OrderService.newIntent(
+                                    orderTime,
+                                    requireContext()
+                                )
+                            )
+                            findNavController().navigate(OrderSheetFragmentDirections.actionOrderSheetFragmentToShopFragment())
+                        }
+                    }
+                }
+                /*
                 buttonOrder.setOnClickListener {
                     viewModel.addOrderById(
                         orderId = order.order.orderId,
@@ -73,13 +101,19 @@ class OrderSheetFragment : BottomSheetDialogFragment(R.layout.fragment_order) {
                         findNavController().navigate(OrderSheetFragmentDirections.actionOrderSheetFragmentToShopFragment())
                     }
                 }
+
+                 */
             }
             chipGroup.setOnCheckedStateChangeListener { _, checkedId ->
                 if (checkedId.isNotEmpty()) {
                     val titleOrNull = chipGroup.findViewById<Chip>(checkedId[0])?.text.toString()
                     orderTime = titleOrNull.convertDateToLong()
+                }else{
+                    chipGroup.check(chipGroup.children.toList()[0].id)
+
                 }
             }
+
         }
         super.onViewCreated(view, savedInstanceState)
     }

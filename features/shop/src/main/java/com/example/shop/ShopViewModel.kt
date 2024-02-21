@@ -17,6 +17,7 @@ import com.example.model.OrderWithProductQuantity
 import com.example.model.Product
 import com.example.model.ProductQuantity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
@@ -39,7 +40,6 @@ class ShopViewModel @Inject constructor(
     val productsLiveData: LiveData<List<Product>> = _productsLiveData
     private val _idLiveData = MutableLiveData<Long>()
     val idLiveData: LiveData<Long> = _idLiveData
-
 
     fun getOrderById(data: Long) {
         viewModelScope.launch {

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="OneLineTextView">
-        <attr name="description" format="string"/>
-        <attr name="data" format="string"/>
+        <attr name="description" format="string" />
+        <attr name="data" format="string" />
+    </declare-styleable>
+    <declare-styleable name="ProgressButton">
+        <attr name="progressButton_text" format="string" />
     </declare-styleable>
 </resources>

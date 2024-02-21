@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Paint
+import android.graphics.Rect
 import android.net.Uri
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import androidx.core.content.ContextCompat
@@ -46,4 +48,11 @@ fun Context.openPermissionSetting() {
         it.data = Uri.fromParts("package", packageName, null)
         startActivity(it)
     }
+}
+fun Context.dpToPx(dp: Float) = this.getResources().getDisplayMetrics().density * dp
+
+fun Paint.getTextWidth(string: String): Float {
+    val rect = Rect()
+    this.getTextBounds(string, 0, string.length, rect)
+    return rect.width().toFloat()
 }

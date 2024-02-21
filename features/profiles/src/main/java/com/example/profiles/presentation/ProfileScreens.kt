@@ -3,6 +3,7 @@ package com.example.profiles.presentation
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -21,6 +22,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -93,6 +95,8 @@ fun TopAppBarCustom(onSettingsButtonClicked: () -> Unit, scrollBehavior: TopAppB
 @Composable
 fun ProfileFeature(viewModel: ProfileViewModel = viewModel()) {
     val navController = rememberNavController()
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     // Get current back stack entry
     val suggestedDestinations by viewModel.ordersLiveData.collectAsStateWithLifecycle()
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -104,14 +108,13 @@ fun ProfileFeature(viewModel: ProfileViewModel = viewModel()) {
     Scaffold(
         topBar = {
             if (navController.previousBackStackEntry != null) {
+
                 NavigateAppBar(
                     currentScreenTitle = currentScreen.title,
                     canNavigateBack = navController.previousBackStackEntry != null,
                     navigateUp = { navController.navigateUp() }
                 )
             } else {
-                val scrollBehavior =
-                    TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
                 Column(modifier = Modifier.background(MaterialTheme.colorScheme.primary)) {
                     TopAppBarCustom(
                         { navController.navigate(ProfileScreens.Settings.name) },
@@ -119,7 +122,10 @@ fun ProfileFeature(viewModel: ProfileViewModel = viewModel()) {
                     )
                 }
             }
-        }
+        },
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { innerPadding ->
         //val uiState by viewModel.uiState.collectAsState()
         NavHost(

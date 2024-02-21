@@ -26,7 +26,8 @@ object DatabaseModule {
             context,
             DeliveryDB::class.java,
             DB_NAME
-        ).build()
+        ).fallbackToDestructiveMigration()
+        .build()
     }
 
     @Provides

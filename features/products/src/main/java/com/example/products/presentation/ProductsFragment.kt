@@ -3,7 +3,6 @@ package com.example.products.presentation
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,8 +10,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.common.PrefsStorage
 import com.example.common.ResultLoader
 import com.example.model.Categories
+import com.example.model.Meals
 import com.example.model.Product
-import com.example.network.model.ApiCategories
 import com.example.products.R
 import com.example.products.databinding.FragmentProductsBinding
 import com.google.android.material.chip.Chip
@@ -45,14 +44,32 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
     private var category: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.getCategories()
         super.onViewCreated(view, savedInstanceState)
         var listProducts = listOf<Product>()
-        var resultCategories: Categories<ApiCategories> = Categories(listOf())
+        var resultCategories: Meals<Categories> = Meals(listOf())
         binding.recyclerViewBanners.apply {
             adapter = banners
         }
+        binding.recyclerViewProducts.adapter = productsAdapter.apply {
+            setCallback {
+                Log.e("error", it.throwable.message.toString())
+                toastError {
+                    viewModel.getCategories()
+                }
+            }
+            setButtonCallback { apiproduct ->
 
+                viewModel.addProductQuantity(
+                    quantity = apiproduct.productInCart,
+                    orderId = prefs.order,
+                    productId = apiproduct.id
+                )
+                viewModel.addProductCrossRef(
+                    productId = apiproduct.id,
+                    productQuantityId = apiproduct.id,
+                )
+            }
+        }
         viewModel.categoriesLiveData.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is ResultLoader.Success -> {
@@ -92,9 +109,6 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                         category = resultCategories.meals[0].strCategory
                         productsAdapter.submitList(result.value[category])
                     }
-                    binding.recyclerViewProducts.apply {
-                        adapter = productsAdapter
-                    }
                     binding.progressBar.visibility = View.GONE
                     binding.recyclerViewProducts.visibility = View.VISIBLE
                 }
@@ -115,41 +129,24 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
             }
         }
 
-        productsAdapter.setCallback {
-            Log.e("error", it.throwable.message.toString())
-            toastError {
-                viewModel.getCategories()
-            }
-        }
-        productsAdapter.setButtonCallback { apiproduct ->
-
-            viewModel.addProductQuantity(
-                    quantity = apiproduct.productInCart,
-                    orderId = prefs.order,
-                    productId = apiproduct.id
-            )
-            viewModel.addProductCrossRef(
-                    productId = apiproduct.id,
-                    productQuantityId = apiproduct.id,
-            )
-        }
 
         binding.chipGroup.setOnCheckedStateChangeListener { _, checkedId ->
             if (checkedId.isNotEmpty()) {
                 val titleOrNull = binding.chipGroup.findViewById<Chip>(checkedId[0])?.text
-                Toast.makeText(requireContext(), titleOrNull ?: category, Toast.LENGTH_LONG).show()
                 when (val meals = viewModel.mealsLiveData.value) {
                     is ResultLoader.Success -> {
                         category = (titleOrNull).toString()
                         productsAdapter.submitList(meals.value[category])
                     }
-
                     else -> {}
                 }
             }
+            else
+                binding.chipGroup.check(binding.chipGroup.children.toList()[0].id)
         }
     }
     private fun toastError(block:  () -> Unit){
+        binding.progressBar.visibility = View.VISIBLE
         val mySnackbar = Snackbar.make(
             binding.root,
             getString(R.string.internet_connection),
